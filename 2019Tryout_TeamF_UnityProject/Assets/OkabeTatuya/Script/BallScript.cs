@@ -6,6 +6,7 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
     Rigidbody2D m_thisRigidbody;
+    [SerializeField] Film m_film;
     [SerializeField] float m_speed;
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
@@ -22,7 +23,31 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+    private void FixedUpdate()
+    {
         MoveLimit();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(m_film == null)
+        {
+            return;
+        }
+        if(collision.transform.tag == "Film")
+        {
+            Boost();
+        }
+    }
+
+    private void Boost()
+    {
+        // 膜の大きさに合わせて強く跳ねる
+        // 1がデフォルト値
+        Debug.Log(m_film.BoundPower);
+        m_thisRigidbody.velocity = m_thisRigidbody.velocity * (1 + m_film.BoundPower);
+        m_film.BoundPower = 0f;
     }
 
     void ResetPosition()
@@ -42,7 +67,7 @@ public class BallScript : MonoBehaviour
     {
         if (m_thisRigidbody.velocity.magnitude > m_moveLimit)
         {
-            Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
+            //Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
 
             m_thisRigidbody.velocity = m_thisRigidbody.velocity.normalized * m_moveLimit;
         }
