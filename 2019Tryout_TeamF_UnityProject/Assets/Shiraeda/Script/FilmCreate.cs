@@ -6,13 +6,18 @@ public class FilmCreate : MonoBehaviour
 {
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
-    // ガイド用のラインレンダラーを生成(テスト版)
-    private LineRenderer _line;
     // 生成できる「まく」のリスト
-    [SerializeField]
+    [SerializeField, Tooltip("フィルムオブジェクトのリスト")]
     private List<GameObject> _filmList = new List<GameObject>();
+    [SerializeField, Tooltip("ガイド用イメージ")]
+    private GameObject _guide;
+    // filmクラス
+    private Film _film;
+    // ガイド用のラインレンダラーを生成(テスト版)
+    //private LineRenderer _line;
+
     // 処理する「まく」のオブジェクト
-    private GameObject _film;
+    private GameObject _object;
     //「まく」の設定角度
     private float _angle;
     // タッチ座標保存変数
@@ -21,13 +26,12 @@ public class FilmCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _line = GetComponent<LineRenderer>();
-        _film = null;
-        _touchPos = new Vector3[2];
-        foreach(Transform child in transform)
+        //_line = GetComponent<LineRenderer>();
+        foreach (var film in _filmList)
         {
-            _filmList.Add(child.gameObject);
+            _film = film.GetComponent<Film>();
         }
+        _touchPos = new Vector3[2];
     }
 
     private void Create()
@@ -58,63 +62,71 @@ public class FilmCreate : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 _touchPos[1] = _mouse.GetMousePoint();
+                //_line.SetPositions(_touchPos);
+                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                _guide.SetActive(true);
+                Distance(_guide);
+            }
+            else
+            {
+                // ラインレンダラーの初期化
+                //Vector3[] resetPos = new Vector3[2];
+                //for(int i = 0; i < resetPos.Length; i++)
+                //{
+                //    resetPos[i] = Vector3.zero;
+                //}
+                //_line.SetPositions(resetPos);
             }
             if (Input.GetMouseButtonUp(0))
             {
+                _guide.SetActive(false);
                 _touchPos[1] = _mouse.GetMousePoint();
-                PointAngle();
-                Distance();
-                Debug.Log("タッチ処理");
+                CheckActiveFilm();
+                Distance(_film.gameObject);
             }
         }
     }
-    private void Distance()
+    private void Distance(GameObject obj)
     {
         float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
-        if (distance < 0.5)
-        {
-            return;
-        }
-        CheckActiveFilm();
-        if(_film == null)
+        if(obj == null)
         {
             return;
         }
         // テストコード 長さ変換
-        _film.transform.localScale = new Vector3(distance * 5, 10 - distance, _film.transform.localScale.z);
+        obj.transform.localScale = new Vector3(distance, 1 - (distance / 10), obj.transform.localScale.z);
         // 厚さの調節
-        if(_film.transform.localScale.y > 5)
+        if(obj.transform.localScale.y > 1)
         {
-            _film.transform.localScale = new Vector3(_film.transform.localScale.x, 5, _film.transform.localScale.z);
+            obj.transform.localScale = new Vector3(obj.transform.localScale.x, 1, obj.transform.localScale.z);
         }
-        else if (_film.transform.localScale.y < 1)
+        else if (obj.transform.localScale.y < 0.1f)
         {
-            _film.transform.localScale = new Vector3(_film.transform.localScale.x, 1, _film.transform.localScale.z);
+            obj.transform.localScale = new Vector3(obj.transform.localScale.x, 0.1f, obj.transform.localScale.z);
         }
-        _film.transform.position = (_touchPos[0] + _touchPos[1]) / 2;
-        _film.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
+        _film.BoundPower = (10 - distance) / 2;
+        if(_film.BoundPower < 0)
+        {
+            _film.BoundPower = 0;
+        }
+        obj.transform.position = _touchPos[0];
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _mouse.GetAngle(_touchPos[0], _touchPos[1])));
     }
 
     // 有効化できる「まく」をチェックする関数
     public bool CheckActiveFilm()
     {
-        _film = null;
         foreach (var file in _filmList)
         {
             // シーン内でオブジェクトのActiveのチェックする
             if(file.activeInHierarchy == false)
             {
-                _film = file;
-                _film.SetActive(true);
+                _object = file;
+                _film.gameObject.SetActive(true);
                 return true;
             }
         }
         return false;
-    }
-
-    private void PointAngle()
-    {
-        _angle = _mouse.GetAngle(_touchPos[0], _touchPos[1]);
     }
 
     // Update is called once per frame
