@@ -5,12 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneCtl : MonoBehaviour
 {
+    // シーンのタイプ
     public enum SCENE_TYPE
     {
-        TITEL,
-        STAGE1,
-        STAGE2,
-        STAGE3,
+        TITLE,
+        GAME,
         RESULT,
         MAX
     }
@@ -19,9 +18,11 @@ public class SceneCtl : MonoBehaviour
     // シーンマネージャー
     private SceneManager scene;
     [SerializeField, Tooltip("シーンのタイプ")]
-    private SCENE_TYPE _type;
+    private SCENE_TYPE _type = SCENE_TYPE.TITLE;
+    private string _sceneName;
     private void Awake()
     {
+        _sceneName = "";
         if(instance != null)
         {
             // thisだとオブジェクトが残るのでループすると大量のオブジェクトが発生する
@@ -45,22 +46,20 @@ public class SceneCtl : MonoBehaviour
     {
         switch (type)
         {
-            case SCENE_TYPE.TITEL:
+            case SCENE_TYPE.TITLE:
                 break;
-            case SCENE_TYPE.STAGE1:
-                break;
-            case SCENE_TYPE.STAGE2:
-                break;
-            case SCENE_TYPE.STAGE3:
+            case SCENE_TYPE.GAME:
                 break;
             case SCENE_TYPE.RESULT:
                 break;
             case SCENE_TYPE.MAX:
+                break;
             default:
                 break;
         }
+    }
 
-        public void NextScene(string sceneName)
+    public void NextScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
@@ -80,6 +79,5 @@ public class SceneCtl : MonoBehaviour
     void Update()
     {
         
-    }
     }
 }

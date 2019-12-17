@@ -30,6 +30,11 @@ public class BallScript : MonoBehaviour
         transform.position = m_stratPosition;
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
+
     void StartMove()
     {
         m_thisRigidbody = this.GetComponent<Rigidbody2D>();
@@ -42,9 +47,11 @@ public class BallScript : MonoBehaviour
     {
         if (m_thisRigidbody.velocity.magnitude > m_moveLimit)
         {
-            Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
+            //Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
 
             m_thisRigidbody.velocity = m_thisRigidbody.velocity.normalized * m_moveLimit;
         }
     }
+
+
 }
