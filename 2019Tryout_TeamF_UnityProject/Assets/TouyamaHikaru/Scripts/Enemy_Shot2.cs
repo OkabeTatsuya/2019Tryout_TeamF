@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy_Shot2 : Bullet
 {
     private List<GameObject> list = new List<GameObject>();
-    private bool direction_random;
+    private List<bool> direction_random = new List<bool>();
 
 
     // Start is called before the first frame update
@@ -23,11 +23,11 @@ public class Enemy_Shot2 : Bullet
 
             if(Random.Range(0,2) == 1)
             {
-                direction_random = true;
+                direction_random.Add(true);
             }
             else
             {
-                direction_random = false;
+                direction_random.Add(false);
             }
         }
 
@@ -40,7 +40,7 @@ public class Enemy_Shot2 : Bullet
         {
             if (list[i] != null)
             {
-                if (direction_random == true)
+                if (direction_random[i] == true)
                 {
                     list[i].transform.position -= new Vector3(E_ShotSpeed, E_ShotSpeed, 0);
                 }
