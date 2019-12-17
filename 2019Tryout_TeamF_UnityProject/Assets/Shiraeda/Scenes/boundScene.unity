@@ -702,11 +702,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Film1
       objectReference: {fileID: 0}
-    - target: {fileID: 1636017103531570417, guid: b4438fb47a9b2c4429118743f415a113,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1636017103531570421, guid: b4438fb47a9b2c4429118743f415a113,
         type: 3}
       propertyPath: m_LocalPosition.x
