@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
+    Rigidbody2D m_thisRigidbody;
     [SerializeField] float m_speed;
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
-
+    [SerializeField] float m_moveLimit;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        MoveLimit();
     }
 
     void ResetPosition()
@@ -31,8 +32,19 @@ public class BallScript : MonoBehaviour
 
     void StartMove()
     {
-        Rigidbody2D rb = this.GetComponent<Rigidbody2D>();
+        m_thisRigidbody = this.GetComponent<Rigidbody2D>();
         Vector3 force = m_startMoveVector * m_speed;
-        rb.AddForce(force);
+
+        m_thisRigidbody.AddForce(force);
+    }
+
+    void MoveLimit()
+    {
+        if (m_thisRigidbody.velocity.magnitude > m_moveLimit)
+        {
+            Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
+
+            m_thisRigidbody.velocity = m_thisRigidbody.velocity.normalized * m_moveLimit;
+        }
     }
 }
