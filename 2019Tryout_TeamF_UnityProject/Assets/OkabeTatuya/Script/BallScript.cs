@@ -35,6 +35,7 @@ public class BallScript : MonoBehaviour
         {
             return;
         }
+
         if(collision.transform.tag == "Film")
         {
             Boost();
