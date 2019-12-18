@@ -194,6 +194,16 @@ PrefabInstance:
       propertyPath: _guide
       value: 
       objectReference: {fileID: 999502493}
+    - target: {fileID: 7701742896573937103, guid: dd9c1486392bd944eb8e0fa5c552c5cf,
+        type: 3}
+      propertyPath: _firstObj
+      value: 
+      objectReference: {fileID: 1492921344}
+    - target: {fileID: 7701742896573937103, guid: dd9c1486392bd944eb8e0fa5c552c5cf,
+        type: 3}
+      propertyPath: _endObj
+      value: 
+      objectReference: {fileID: 1492921344}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd9c1486392bd944eb8e0fa5c552c5cf, type: 3}
 --- !u!1 &262338387
@@ -766,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c77f61b6f32b864ca3d7a9f407c1163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Stage_Database: {fileID: 11400000, guid: c43d7fe63604eb94b8699075d3823020, type: 2}
+  Stage_Database: {fileID: 0}
   te: {fileID: 0}
 --- !u!4 &1504322928
 Transform:
