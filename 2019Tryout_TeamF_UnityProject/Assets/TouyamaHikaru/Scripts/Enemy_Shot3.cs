@@ -9,7 +9,7 @@ public class Enemy_Shot3 : Bullet
     //敵の弾のリスト
     private List<GameObject> list = new List<GameObject>();
 
-    private List<Vector2> vec = new List<Vector2>();
+    private List<Vector3> vec = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +23,10 @@ public class Enemy_Shot3 : Bullet
         if (obj != null)
         {
             //敵の座標を変数posに保存
-            var pos = this.gameObject.transform.position;
-
+            var enemyPos = this.gameObject.transform.position;
+            var randomPos = new Vector3(Random.Range(-8.0f, 8.0f), Random.Range(-2.0f, 5.0f),0);
             //プレイヤーの位置から敵の位置（弾の位置）を引く
-            vec.Add(player.transform.position - pos);
+            vec.Add(randomPos - enemyPos);
 
             list.Add(obj);
 

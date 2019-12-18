@@ -25,4 +25,7 @@ public class Dragon : Enemy
     {
         Lateral_Vertical_Movement2();
     }
+
+    
+
 }

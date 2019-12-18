@@ -17,6 +17,7 @@ public class GameDatabase : ScriptableObject
 public sealed class GameDatabaseEditor : Editor
 {
     GameDatabase data;
+    SatgeDatabase Data;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -25,22 +26,27 @@ public sealed class GameDatabaseEditor : Editor
         {
             SatgeDatabase model = ScriptableObject.CreateInstance<SatgeDatabase>();
 
+            int stageNo = data.StagList.Count + 1;
             //書き出し先のフォルダが存在しないのなら作成
             if (!Directory.Exists("Assets/GameDatabase"))
             {
                 Directory.CreateDirectory("Assets/GameDatabase");
             }
-            if (!Directory.Exists("Assets/GameDatabase/StageData"))
+            if (!Directory.Exists("Assets/GameDatabase/"+ stageNo + "_Stage"))
             {
-                Directory.CreateDirectory("Assets/GameDatabase/StageData");
-            }
-            if (!Directory.Exists("Assets/GameDatabase/StageData"))
-            {
-                Directory.CreateDirectory("Assets/GameDatabase/StageData/WaveData");
+                Directory.CreateDirectory("Assets/GameDatabase/" + stageNo + "_Stage");
             }
             AssetDatabase.SaveAssets();
+            string Path = "Assets/GameDatabase/" + stageNo + "_Stage/" + stageNo + "_Stage.asset";
             // 該当パスにオブジェクトアセットを生成
-            AssetDatabase.CreateAsset(model, "Assets/GameDatabase/StageData/" + "Stage" + (data.StagList.Count + 1).ToString() + ".asset");
+            AssetDatabase.CreateAsset(model, Path);
+
+            //データの書き出しを更新する
+            AssetDatabase.SaveAssets();
+            AssetDatabase.ImportAsset(Path, ImportAssetOptions.ForceUpdate);
+            Data = AssetDatabase.LoadAssetAtPath<SatgeDatabase>(Path);
+            Data.StageNo = stageNo;
+            data.StagList.Add(Data);
             AssetDatabase.SaveAssets();
         }
     }

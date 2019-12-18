@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
     protected byte directioncount;  //方向を変えるたびにカウントが増える 
 
+    public int hp;
+    public int hp_max;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,12 +98,14 @@ public class Enemy : MonoBehaviour
 
             if (enemyX + moveX <= myTransform.position.x)
             {
+                myTransform.position = new Vector3(enemyX + moveX, myTransform.position.y, 0);
                 speedX *= -1;
             }
 
             if(enemyY - moveY*2 >= myTransform.position.y)
             {
                 speedY *= -1;
+                myTransform.position = new Vector3(myTransform.position.x, enemyY - moveY * 2, 0);
                 direction = false;
             }
 
@@ -112,11 +117,13 @@ public class Enemy : MonoBehaviour
 
             if (enemyX - moveX >= myTransform.position.x)
             {
+                myTransform.position = new Vector3(enemyX - moveX, myTransform.position.y, 0);
                 speedX *= -1;
             }
             if (enemyY <= myTransform.position.y)
             {
                 speedY *= -1;
+                myTransform.position = new Vector3(myTransform.position.x, enemyY, 0);
                 direction = true;
             }
         }
@@ -208,6 +215,28 @@ public class Enemy : MonoBehaviour
 
     }
 
+    //死亡確認と処理
+    public void DestroyEnemy()
+    {
+        if (hp <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
 
+    //ヒットポイント減少
+    public void Damage()
+    {
+        hp--;
+    }
+
+    public void OnCollisionEnter2D(Collision2D Ball)
+    {
+        if (Ball.gameObject.tag == "Ball")
+        {
+            Damage();
+            DestroyEnemy();
+        }
+    }
 
 }
