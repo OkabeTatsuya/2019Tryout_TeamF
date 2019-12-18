@@ -40,7 +40,7 @@ public class FilmCreate : MonoBehaviour
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                _touchPos[0] = _mouse.GetMousePoint();
+                _touchPos[0] = _mouse.GetWorldPoint();
             }
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
             {
@@ -48,7 +48,7 @@ public class FilmCreate : MonoBehaviour
             }
             if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
-                _touchPos[1] = _mouse.GetMousePoint();
+                _touchPos[1] = _mouse.GetWorldPoint();
             }
         }
         else
@@ -57,27 +57,31 @@ public class FilmCreate : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 // 始点の座標を取得
-                _touchPos[0] = _mouse.GetMousePoint();
+                _touchPos[0] = _mouse.GetWorldPoint();
                 _guideLine.SetPosition(0, _touchPos[0]);
-                _bezier.transform.gameObject.SetActive(true);
                 _bezier.StartCurve();
             }
             if (Input.GetMouseButton(0))
             {
                 // 終点座標を取得
-                _touchPos[1] = _mouse.GetMousePoint();
+                _touchPos[1] = _mouse.GetWorldPoint();
                 _guideLine.SetPosition(0, _touchPos[0]);
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
-                if (distance > 1)
+                if (distance > 2)
                 {
+                    _bezier.transform.gameObject.SetActive(true);
                     _bezier.SetCurve(_touchPos[0], _touchPos[1]);
                 }
             }
             if (Input.GetMouseButtonUp(0))
             {
-                _touchPos[1] = _mouse.GetMousePoint();
+                _touchPos[1] = _mouse.GetWorldPoint();
                 // lineを生成
-                _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                if (distance > 2)
+                {
+                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                }
                 _film.gameObject.SetActive(true);
                 StartCoroutine(_bezier.Adjustment());
                 Distance(_film.gameObject);
@@ -103,6 +107,7 @@ public class FilmCreate : MonoBehaviour
         {
             obj.transform.localScale = new Vector3(obj.transform.localScale.x, 0.1f, obj.transform.localScale.z);
         }
+        // 
         _film.BoundPower = (10 - distance) / 2;
         if(_film.BoundPower < 0)
         {

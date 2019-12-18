@@ -10,14 +10,15 @@ public class MousePoint : MonoBehaviour
     private float _distance;
     // 2点間の角度
     private float _angle;
-
+    // 表示用オブジェクト
+    [SerializeField, Tooltip("入れ替えるマウスカーソル")]
+    private GameObject _cursorObj = null;
     // デバック情報
     [SerializeField, Header("Debug")]
     private bool _debug = false;
-    // 表示用オブジェクト
+
     [SerializeField, Tooltip("デバック用表示物")]
     private GameObject _debugObj = null;
-    private GameObject _obj;
 
     // Start is called before the first frame update
     void Start()
@@ -25,26 +26,46 @@ public class MousePoint : MonoBehaviour
         _worldPos = Vector3.zero;
         _distance = 0f;
         _angle = 0f;
-
-        if (_debug && _debugObj != null)
+        CursorChange();
+    }
+    
+    // カーソル変更関数
+    public void CursorChange()
+    {
+        // 変更するカーソルが無ければ処理をスキップ
+        if(_cursorObj == null)
         {
-            _obj = Instantiate(_debugObj);
+            return;
         }
+        // カーソルを非表示に
+        Cursor.visible = false;
+        _cursorObj.SetActive(true);
     }
 
-    public Vector3 GetMousePoint()
+    // カーソル移動関数
+    public void MoveCursor()
+    {
+        if(_cursorObj == null)
+        {
+            return;
+        }
+        _cursorObj.transform.position = _worldPos;
+    }
+
+    public Vector3 GetWorldPoint()
+    {
+        return _worldPos;
+    }
+
+    private void MouseToWorldPoint()
     {
         // マウス座標を取得
         Vector3 mousePos = Input.mousePosition;
         // スクリーンのXbox
         _worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         _worldPos.z = 10.0f;
-        if(_debug && _obj != null)
-        {
-            _obj.transform.position = _worldPos;
-        }
-        return _worldPos;
     }
+
     // 2点間の距離
     public float GetDistance(Vector2 pos1, Vector2 pos2)
     {
@@ -62,8 +83,11 @@ public class MousePoint : MonoBehaviour
         return _angle;
     }
 
+
     // Update is called once per frame
     void Update()
     {
+        MouseToWorldPoint();
+        MoveCursor();
     }
 }
