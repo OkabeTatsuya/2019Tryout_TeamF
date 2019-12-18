@@ -459,5 +459,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPGauge: {fileID: 4371246146135019501}
-  targetObject: {fileID: 4371246146019762823}
-  slime: {fileID: 4371246146019762820}
+  enemy: {fileID: 4371246146019762820}
