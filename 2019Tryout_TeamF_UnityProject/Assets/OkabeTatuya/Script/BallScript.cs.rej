@@ -1,0 +1,9 @@
+diff a/2019Tryout_TeamF_UnityProject/Assets/OkabeTatuya/Script/BallScript.cs b/2019Tryout_TeamF_UnityProject/Assets/OkabeTatuya/Script/BallScript.cs	(rejected hunks)
+@@ -67,6 +67,7 @@
+      {
+          if (m_thisRigidbody.velocity.magnitude > m_moveLimit)
+          {
+++<<<<<<< Updated upstream
+ +            //Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
+ +
+ +=======

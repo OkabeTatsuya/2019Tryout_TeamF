@@ -61,14 +61,13 @@ public sealed class DatabaseEditor : Editor
         //    }
         //}
 
-        if (!(data.MapScale_X == 0 || data.MapScale_Y == 0 || data.EnemyList.Count == 0))
+
+        if (GUILayout.Button("Edit", GUILayout.Height(25)))
         {
-            if (GUILayout.Button("Edit", GUILayout.Height(25)))
-            {
-                MapEditor window = EditorWindow.GetWindow<MapEditor>("MapEditor");
-                window.Set(data);
-            }
+            MapEditor window = EditorWindow.GetWindow<MapEditor>("MapEditor");
+            window.Set(data);
         }
+
     }
 }
 //----------------------------------------------------------------
