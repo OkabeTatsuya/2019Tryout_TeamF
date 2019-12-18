@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6666f38eb8166064b994a2ed39d1ae31, type: 3}
   m_Name: Game Manager Data
   m_EditorClassIdentifier: 
-  m_nowScore: 0
-  m_desEnemyCount: 0
-  m_maxEnemyNum: 0
+  m_maxTime: 50
+  m_ranckUIImage:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
