@@ -51,8 +51,11 @@ public class Film : MonoBehaviour
             Debug.Log("足りないコンポーネントが存在します");
             return;
         }
-        _bezier.Hit();
-        _collider.enabled = false;
-        gameObject.SetActive(false);
+        if (collision.transform.tag == "Film")
+        {
+            _bezier.Hit();
+            _collider.enabled = false;
+            gameObject.SetActive(false);
+        }
     }
 }
