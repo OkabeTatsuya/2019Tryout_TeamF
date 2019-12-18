@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef0195749166b745b57d4cf21b5c52d, type: 3}
   m_Name: 2_Stage
   m_EditorClassIdentifier: 
-  StageNo: 0
+  StageNo: 2
   MapScale_X: 16
   MapScale_Y: 9
-  Stage: {fileID: 0}
-  EnemyList: []
+  Stage: {fileID: 11400000, guid: 4aecfc94fc1a555419960269ef84fe7d, type: 2}
+  EnemyList:
+  - {fileID: 124221354857939566, guid: cc178e9113cb3314d9ac8563c522d37c, type: 3}

@@ -62,13 +62,14 @@ public sealed class DatabaseEditor : Editor
         //    }
         //}
 
-
-        if (GUILayout.Button("Edit", GUILayout.Height(25)))
+        if (data.EnemyList.Count != 0)
         {
-            MapEditor window = EditorWindow.GetWindow<MapEditor>("MapEditor");
-            window.Set(data);
+            if (GUILayout.Button("Edit", GUILayout.Height(25)))
+            {
+                MapEditor window = EditorWindow.GetWindow<MapEditor>("MapEditor");
+                window.Set(data);
+            }
         }
-
     }
 }
 //----------------------------------------------------------------
@@ -85,33 +86,9 @@ public class MapEditor : EditorWindow
         Scale_X = dataBase.MapScale_X;
         Scale_Y = dataBase.MapScale_Y;
 
-        editData = new Set_Data[Scale_X];
-        for (int x = 0; x < Scale_X; x++)
-        {
-            editData[x] = new Set_Data();
-            editData[x].Map_Data = new MapData[Scale_Y];
+        Import();
 
-            for (int y = 0; y < Scale_Y; y++)
-            {
-                if (data != null)
-                {
-                    if (x >= Data_Scale_X || y >= Data_Scale_Y)
-                    {
-                        MapData Data = new MapData();
-                        editData[x].Map_Data[y] = Data;
-                    }
-                    else
-                    {
-                        //editData[x].Map_Data[y] = circuit[x, y];
-                    }
-                }
-                else
-                {
-                    MapData Data = new MapData();
-                    editData[x].Map_Data[y] = Data;
-                }
-            }
-        }
+
         enemyTexture = new Texture2D[dataBase.EnemyList.Count];
         none = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Sprite/" + "none" + ".png");
         for (int i = 0; i < enemyTexture.Length; i++)
@@ -195,7 +172,6 @@ public class MapEditor : EditorWindow
                 Handles.color = Color.red;
 
                 Rect rect = new Rect(panelScale + panelScale * x, panelScale + panelScale * y, panelScale, panelScale);
-
 
                 if (GUI.Button(rect, none, GUIStyle.none))
                 {
@@ -313,12 +289,12 @@ public class MapEditor : EditorWindow
         {
             WaveData model = ScriptableObject.CreateInstance<WaveData>();
             AssetDatabase.SaveAssets();
-            string path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData//WaveData.asset";
-            model.Wave_1 = exportData;
+            string path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData/WaveData.asset";
             AssetDatabase.CreateAsset(model, path);
             AssetDatabase.SaveAssets();
-            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);         
             WaveData data = AssetDatabase.LoadAssetAtPath<WaveData>(path);
+            data.Wave_1 = exportData;
             dataBase.Stage = data;
         }
         else
@@ -327,9 +303,36 @@ public class MapEditor : EditorWindow
         }
 
         EditorUtility.SetDirty(this);
-        EditorUtility.SetDirty(dataBase.Stage);
+        EditorUtility.SetDirty(dataBase);
         AssetDatabase.SaveAssets();
         EditorUtility.ClearProgressBar();
+    }
+
+    Export_MapData import_deta;
+    void Import()
+    {
+        import_deta = JsonConvert.DeserializeObject<Export_MapData>(dataBase.Stage.Wave_1.ToString());
+
+        editData = new Set_Data[Scale_X];
+        for (int x = 0; x < Scale_X; x++)
+        {
+            editData[x] = new Set_Data();
+            editData[x].Map_Data = new MapData[Scale_Y];
+            for (int y = 0; y < Scale_Y; y++)
+            {
+                editData[x].Map_Data[y] = new MapData();
+            }
+        }
+
+        for (int i = 0; i < import_deta.MapData.Count; i++)
+        {
+            if (!(import_deta.MapData[i].X > Scale_X || import_deta.MapData[i].Y > Scale_Y))
+            {
+                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].size = import_deta.MapData[i].size;
+                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyNo = import_deta.MapData[i].EnemyNo;
+                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyPop = true;
+            }
+        }
     }
 }
 
