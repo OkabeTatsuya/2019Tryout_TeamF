@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bed6f81c4d535418c9f9b870e51a7f, type: 3}
-  m_Name: New Game Database
+  m_Script: {fileID: 11500000, guid: 49019ad300cc706469a22c54de70963f, type: 3}
+  m_Name: WaveData
   m_EditorClassIdentifier: 
-  StagList: []
+  Wave_1: {fileID: 0}
+  Wave_2: {fileID: 0}
+  Wave_3: {fileID: 0}
