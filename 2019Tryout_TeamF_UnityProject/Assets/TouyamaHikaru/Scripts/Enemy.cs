@@ -15,8 +15,8 @@ public class Enemy : MonoBehaviour
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
     protected byte directioncount;  //方向を変えるたびにカウントが増える 
 
-    public int hp = 5;
-    public int hp_max = 5;
+    public int hp;
+    public int hp_max;
 
     // Start is called before the first frame update
     void Start()
@@ -230,5 +230,13 @@ public class Enemy : MonoBehaviour
         hp--;
     }
 
+    public void OnCollisionEnter2D(Collision2D Ball)
+    {
+        if (Ball.gameObject.tag == "Ball")
+        {
+            Damage();
+            DestroyEnemy();
+        }
+    }
 
 }
