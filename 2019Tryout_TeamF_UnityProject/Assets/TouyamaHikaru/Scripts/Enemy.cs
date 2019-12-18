@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
     protected byte directioncount;  //方向を変えるたびにカウントが増える 
 
+    public int hp = 5;
+    public int hp_max = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -208,6 +211,20 @@ public class Enemy : MonoBehaviour
 
     }
 
+    //死亡確認と処理
+    public void DestroyEnemy()
+    {
+        if (hp <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    //ヒットポイント減少
+    public void Damage()
+    {
+        hp--;
+    }
 
 
 }
