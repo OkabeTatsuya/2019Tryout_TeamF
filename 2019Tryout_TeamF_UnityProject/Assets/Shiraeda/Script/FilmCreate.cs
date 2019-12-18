@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class FilmCreate : MonoBehaviour
 {
+    [SerializeField, Tooltip("始点のオブジェクト")]
+    private GameObject _firstObj;
+    [SerializeField, Tooltip("終点のオブジェクト")]
+    private GameObject _endObj;
+    private GameObject[] _lineObj;
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
     // 生成できる「まく」のリスト
@@ -23,10 +28,19 @@ public class FilmCreate : MonoBehaviour
     // タッチ座標保存変数
     private Vector3[] _touchPos;
 
+
     // Start is called before the first frame update
     void Start()
     {
-
+        // Prefabに設定されたオブジェクトを生成
+        _lineObj = new GameObject[2];
+        // Prefabのオブジェクトを生成
+        _lineObj[0] = Instantiate(_firstObj);
+        _lineObj[1] = Instantiate(_endObj);
+        foreach(GameObject point in _lineObj)
+        {
+            point.SetActive(false);
+        }
         _line = GetComponent<LineRenderer>();
         foreach (var film in _filmList)
         {
@@ -42,12 +56,17 @@ public class FilmCreate : MonoBehaviour
             Debug.Log("コンポーネントが存在しない");
             return;
         }
+        // Android移植用
         // 1か所以上タッチされているなら(Android版)
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 _touchPos[0] = _mouse.GetMousePoint();
+            }
+            if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            {
+
             }
             if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
@@ -56,27 +75,27 @@ public class FilmCreate : MonoBehaviour
         }
         else
         {
+            // 押した瞬間
             if (Input.GetMouseButtonDown(0))
             {
+                // 始点の座標を取得
+                _lineObj[0].SetActive(true);
+                _lineObj[0].transform.position = _mouse.GetMousePoint();
                 _touchPos[0] = _mouse.GetMousePoint();
             }
             if (Input.GetMouseButton(0))
             {
-                _touchPos[1] = _mouse.GetMousePoint();
-                _line.SetPositions(_touchPos);
+                // 終点座標を取得
+                _lineObj[0].SetActive(true);
+                _lineObj[1].transform.position = _mouse.GetMousePoint();
+                _touchPos[0] = _mouse.GetMousePoint();
+                for(int i = 0; i < 2; i++)
+                {
+                    _line.SetPosition(i, _lineObj[i].transform.position);
+                }
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 _guide.SetActive(true);
                 Distance(_guide);
-            }
-            else
-            {
-                // ラインレンダラーの初期化
-                //Vector3[] resetPos = new Vector3[2];
-                //for(int i = 0; i < resetPos.Length; i++)
-                //{
-                //    resetPos[i] = Vector3.zero;
-                //}
-                //_line.SetPositions(resetPos);
             }
             if (Input.GetMouseButtonUp(0))
             {
