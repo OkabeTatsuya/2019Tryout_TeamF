@@ -15,6 +15,10 @@ public class Film : MonoBehaviour
         get { return _boundPower; }
         set { _boundPower = value; }
     }
+
+    [SerializeField]
+    private LineBezier _bezier = null;
+
     private void Awake()
     {
         Debug.Log("Awake");
@@ -42,11 +46,12 @@ public class Film : MonoBehaviour
     {
         Debug.Log("球をはじいた");
         // フェイドアウトスタート
-        if(_fade == null)
+        if(_fade == null || _bezier == null)
         {
+            Debug.Log("足りないコンポーネントが存在します");
             return;
         }
-        //StartCoroutine(StartFade());
+        _bezier.Hit();
         _collider.enabled = false;
         gameObject.SetActive(false);
     }
