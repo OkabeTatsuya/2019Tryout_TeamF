@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49019ad300cc706469a22c54de70963f, type: 3}
-  m_Name: New Wave Data
+  m_Name: WaveData
   m_EditorClassIdentifier: 
-  Wave_1: {fileID: 4900000, guid: 5fd451d0828e3dd47a5d91f180664ff6, type: 3}
+  Wave_1: {fileID: 4900000, guid: c5680785e3b4f364ba15bdba5d593c82, type: 3}
   Wave_2: {fileID: 0}
   Wave_3: {fileID: 0}

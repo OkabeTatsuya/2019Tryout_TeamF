@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 [CreateAssetMenu(menuName = "MyScriptable/Create Database")]
 public class SatgeDatabase : ScriptableObject
 {
+    public int StageNo;
     public int MapScale_X = 16, MapScale_Y = 9;
 
     public WaveData Stage;
@@ -124,7 +125,7 @@ public class MapEditor : EditorWindow
     private int Scale_X = 0, Scale_Y = 0;
     void OnEnable()
     {
-
+        
     }
 
     public struct Enemy_area
@@ -138,7 +139,6 @@ public class MapEditor : EditorWindow
     private float enemySize = 1;
     private Vector2 _scrollPosition = Vector2.zero, _crollPosition_tool = Vector2.zero;
     private int setEnemy = 0;
-    private Texture2D buttonTex;
     private List<Enemy_area> Circle;
     
     void OnGUI()
@@ -195,6 +195,27 @@ public class MapEditor : EditorWindow
                 Handles.color = Color.red;
 
                 Rect rect = new Rect(panelScale + panelScale * x, panelScale + panelScale * y, panelScale, panelScale);
+
+
+                if (GUI.Button(rect, none, GUIStyle.none))
+                {
+                    //右クリック
+                    if (Event.current.button == 0)
+                    {
+                        if (enemySize > 0)
+                        {
+                            editData[x].Map_Data[y].EnemyPop = true;
+                            editData[x].Map_Data[y].size = enemySize;
+                            editData[x].Map_Data[y].EnemyNo = setEnemy;
+                        }
+                    }
+                    //左クリック
+                    else if (Event.current.button == 1)
+                    {
+                        editData[x].Map_Data[y] = new MapData();
+                    }
+                }
+
                 if (editData[x].Map_Data[y].EnemyPop)
                 {
                     Enemy_area circleData = new Enemy_area();
@@ -203,22 +224,6 @@ public class MapEditor : EditorWindow
                     circleData.X = x;
                     circleData.Y = y;
                     Circle.Add(circleData);
-                    buttonTex = enemyTexture[editData[x].Map_Data[y].EnemyNo];
-                }
-                else
-                {
-                    buttonTex = none;
-                }
-
-
-                if (GUI.Button(rect, none, GUIStyle.none))
-                {
-                    if (enemySize > 0)
-                    {
-                        editData[x].Map_Data[y].EnemyPop = true;
-                        editData[x].Map_Data[y].size = enemySize;
-                        editData[x].Map_Data[y].EnemyNo = setEnemy;
-                    }
                 }
             }
         }
@@ -250,6 +255,7 @@ public class MapEditor : EditorWindow
 
 
     private string json;
+    UnityEngine.Object exportData;
     void Export()
     {
 
@@ -280,21 +286,48 @@ public class MapEditor : EditorWindow
         }
         Debug.Log(Data.MapData.Count);
         //書き出し先のフォルダが存在しないのなら作成
+
         if (!Directory.Exists("Assets/GameDatabase"))
         {
             Directory.CreateDirectory("Assets/GameDatabase");
         }
-        if (!Directory.Exists("Assets/GameDatabase/StageData"))
+        if (!Directory.Exists("Assets/GameDatabase/" + dataBase.StageNo+ "_Stage"))
         {
-            Directory.CreateDirectory("Assets/GameDatabase/Complete");
+            Directory.CreateDirectory("Assets/GameDatabase/" + dataBase.StageNo + "_Stage");
         }
-
-
-
+        if (!Directory.Exists("Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData"))
+        {
+            Directory.CreateDirectory("Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData");
+        }
+        string Path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData/Stage" + dataBase.StageNo + "_Wave.json";
         json = JsonConvert.SerializeObject(Data, Formatting.Indented);
 
-        File.WriteAllText("Assets/test.json", json);
+        File.WriteAllText(Path, json);
 
+        //データの書き出しを更新する
+        AssetDatabase.SaveAssets();
+        AssetDatabase.ImportAsset(Path, ImportAssetOptions.ForceUpdate);
+        exportData = AssetDatabase.LoadMainAssetAtPath(Path);
+
+        if (!dataBase.Stage)
+        {
+            WaveData model = ScriptableObject.CreateInstance<WaveData>();
+            AssetDatabase.SaveAssets();
+            string path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData//WaveData.asset";
+            model.Wave_1 = exportData;
+            AssetDatabase.CreateAsset(model, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+            WaveData data = AssetDatabase.LoadAssetAtPath<WaveData>(path);
+            dataBase.Stage = data;
+        }
+        else
+        {
+            dataBase.Stage.Wave_1 = exportData;
+        }
+
+        EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(dataBase.Stage);
         AssetDatabase.SaveAssets();
         EditorUtility.ClearProgressBar();
     }
