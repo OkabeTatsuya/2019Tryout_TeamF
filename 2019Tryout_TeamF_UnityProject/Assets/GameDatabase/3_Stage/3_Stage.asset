@@ -15,6 +15,6 @@ MonoBehaviour:
   StageNo: 3
   MapScale_X: 16
   MapScale_Y: 27
-  Stage: {fileID: 11400000, guid: 2747125227e653045ae469b54ccc382b, type: 2}
+  Stage: {fileID: 0}
   EnemyList:
-  - {fileID: 4899448614409643478, guid: 229e32690554c744689f340fe581d940, type: 3}
+  - {fileID: 8988786461156636998, guid: 229e32690554c744689f340fe581d940, type: 3}

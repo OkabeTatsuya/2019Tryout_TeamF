@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageNo: 2
   MapScale_X: 16
-  MapScale_Y: 9
+  MapScale_Y: 27
   Stage: {fileID: 11400000, guid: 4aecfc94fc1a555419960269ef84fe7d, type: 2}
   EnemyList:
-  - {fileID: 4899448614409643478, guid: 229e32690554c744689f340fe581d940, type: 3}
+  - {fileID: 8988786461156636998, guid: 229e32690554c744689f340fe581d940, type: 3}
+  - {fileID: 1623847555027470805, guid: 56e120c7455e37d4ab6f4b0b9e6e3de9, type: 3}
+  - {fileID: 2815248015100822356, guid: d36eecf69b5e9e247b2c44d2eed351ab, type: 3}
