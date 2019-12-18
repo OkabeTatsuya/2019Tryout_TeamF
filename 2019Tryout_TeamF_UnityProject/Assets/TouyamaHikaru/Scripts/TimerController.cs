@@ -8,11 +8,13 @@ public class TimerController : MonoBehaviour
     public Text timerText;  //タイマーテキスト
 
     public float totalTime;
+
     int seconds;
 
     // Use this for initialization
     void Start()
     {
+        totalTime = Manaeger.Instance.m_managerData.m_maxTime[0];
 
     }
 
