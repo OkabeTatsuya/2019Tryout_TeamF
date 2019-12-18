@@ -23,6 +23,9 @@ public class LineBezier : MonoBehaviour
     // LineRenderer取得用変数
     private LineRenderer _lineRenderer;
     private float _angle;
+    [SerializeField, Tooltip("ボール")]
+    private GameObject _ball = null;
+    private Rigidbody _ballRigidbody;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +38,15 @@ public class LineBezier : MonoBehaviour
         }
         _lineRenderer.startWidth = 0.5f;
         _lineRenderer.endWidth = 0.5f;
+        _ballRigidbody = _ball.GetComponent<Rigidbody>();
         // 初期化完了後
         this.gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
+        _firstPoint = Vector3.zero;
+        _endPoint = Vector3.zero;
         _centerPoint.y = -2;
     }
 
@@ -77,8 +83,14 @@ public class LineBezier : MonoBehaviour
         return Vector3.zero;
     }
 
+    public void StartCurve()
+    {
+        _centerPoint.y = -2;
+    }
+
     private void HitCenter(Vector3 vector, float Power)
     {
+
         // ベクトルと球の速度を取得して、センターの位置をへこませる。
     }
 
@@ -96,8 +108,10 @@ public class LineBezier : MonoBehaviour
         }
         return _point3;
     }
+
     public void Hit()
     {
+        Debug.Log("デバック");
         _coroutine = StartCoroutine(PrototypeHit());
     }
 
@@ -107,35 +121,59 @@ public class LineBezier : MonoBehaviour
         {
             _SecondTimeHit += Time.deltaTime;
             _centerPoint = new Vector3(0, Mathf.Sin(Time.time * _speed), 0);
+            SetCurve(_firstPoint, _endPoint);
             yield return null;
         }
+        _firstPoint = Vector3.zero;
+        _endPoint = Vector3.zero;
+        SetCurve(_firstPoint, _endPoint);
         _SecondTimeHit = 0f;
         _coroutine = null;
         gameObject.SetActive(false);
     }
 
+    // 値の補完
     public IEnumerator Adjustment()
     {
-        Debug.Log("コルーチンを開始する");
         while (_centerPoint.magnitude >= 0.1)
         {
-            Debug.Log("コルーチンのループ");
             _centerPoint = Vector3.Lerp(_centerPoint, Vector3.zero, Time.deltaTime * _speed);
             SetCurve(_firstPoint, _endPoint);
             yield return null;
         }
         _centerPoint = Vector3.zero;
-        Debug.Log("コルーチンの終了");
     }
 
+    // 取得したベクトルからへこませる位置を変化させる
     private void Center()
     {
-
+        if(_ballRigidbody == null)
+        {
+            return;
+        }
+        // ボールの現在のベクトル
+        var velocity = _ballRigidbody.velocity;
+        _centerPoint += velocity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // SetCurve(_firstPoint,_endPoint);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(_ball == null)
+        {
+            return;
+        }
+        // 衝突したオブジェクトがボールか
+        if(collision.transform.tag == "Ball")
+        {
+            foreach(ContactPoint2D point in collision.contacts)
+            {
+                _centerPoint = point.point;
+            }
+        }
     }
 }

@@ -53,7 +53,6 @@ public class Bullet : MonoBehaviour
 
             return clone;
         }
-
         return null;
     }
 

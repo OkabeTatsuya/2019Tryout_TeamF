@@ -51,7 +51,7 @@ public class Film : MonoBehaviour
             Debug.Log("足りないコンポーネントが存在します");
             return;
         }
-        if (collision.transform.tag == "Film")
+        if (collision.transform.tag == "Ball")
         {
             _bezier.Hit();
             _collider.enabled = false;

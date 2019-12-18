@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class FilmCreate : MonoBehaviour
 {
+    [SerializeField, Tooltip("当たり判定")]
+    private GameObject[] _colObject = new GameObject[3];
+    private List<Collision> _collisionList = new List<Collision>();
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
-    // 生成できる「まく」のリスト
-    [SerializeField, Tooltip("フィルムオブジェクトのリスト")]
-    private List<GameObject> _filmList = new List<GameObject>();
-    // まく
+    //// まく
+    [SerializeField]
     private Film _film;
     private LineRenderer _guideLine;
     //「まく」の設定角度
@@ -23,12 +24,6 @@ public class FilmCreate : MonoBehaviour
     void Start()
     {
         _guideLine = GetComponent<LineRenderer>();
-        GameObject obj = new GameObject();
-        // Prefabに設定されたオブジェクトを生成
-        foreach (var film in _filmList)
-        {
-            _film = film.GetComponent<Film>();
-        }
         _touchPos = new Vector3[2];
     }
 
@@ -65,6 +60,7 @@ public class FilmCreate : MonoBehaviour
                 _touchPos[0] = _mouse.GetMousePoint();
                 _guideLine.SetPosition(0, _touchPos[0]);
                 _bezier.transform.gameObject.SetActive(true);
+                _bezier.StartCurve();
             }
             if (Input.GetMouseButton(0))
             {
@@ -82,8 +78,8 @@ public class FilmCreate : MonoBehaviour
                 _touchPos[1] = _mouse.GetMousePoint();
                 // lineを生成
                 _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                _film.gameObject.SetActive(true);
                 StartCoroutine(_bezier.Adjustment());
-                CheckActiveFilm();
                 Distance(_film.gameObject);
             }
         }
@@ -116,20 +112,20 @@ public class FilmCreate : MonoBehaviour
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _mouse.GetAngle(_touchPos[0], _touchPos[1])));
     }
 
-    // 有効化できる「まく」をチェックする関数
-    public bool CheckActiveFilm()
-    {
-        foreach (var file in _filmList)
-        {
-            // シーン内でオブジェクトのActiveのチェックする
-            if(file.activeInHierarchy == false)
-            {
-                _film.gameObject.SetActive(true);
-                return true;
-            }
-        }
-        return false;
-    }
+    //// 有効化できる「まく」をチェックする関数
+    //public bool CheckActiveFilm()
+    //{
+    //    foreach (var file in _filmList)
+    //    {
+    //        // シーン内でオブジェクトのActiveのチェックする
+    //        if(file.activeInHierarchy == false)
+    //        {
+    //            _film.gameObject.SetActive(true);
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
     // Update is called once per frame
     void Update()
