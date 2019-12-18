@@ -17,7 +17,7 @@ MonoBehaviour:
   MapScale_Y: 27
   Stage: {fileID: 11400000, guid: 06e3263f8fb191d46954f8cb0a342d0a, type: 2}
   EnemyList:
-  - {fileID: 4899448614409643478, guid: 229e32690554c744689f340fe581d940, type: 3}
-  - {fileID: 74903581341170647, guid: dec5e53d250bace48a02cbfb5beda3a4, type: 3}
-  - {fileID: 7502329333371859271, guid: a9d6e183a4922b14880d919cb44378ad, type: 3}
-  - {fileID: 44459222419988143, guid: d36eecf69b5e9e247b2c44d2eed351ab, type: 3}
+  - {fileID: 8988786461156636998, guid: 229e32690554c744689f340fe581d940, type: 3}
+  - {fileID: 1623847555027470805, guid: 56e120c7455e37d4ab6f4b0b9e6e3de9, type: 3}
+  - {fileID: 1314246411907625703, guid: a9d6e183a4922b14880d919cb44378ad, type: 3}
+  - {fileID: 2815248015100822356, guid: d36eecf69b5e9e247b2c44d2eed351ab, type: 3}
