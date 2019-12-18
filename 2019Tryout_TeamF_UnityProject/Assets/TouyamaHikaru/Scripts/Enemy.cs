@@ -98,12 +98,14 @@ public class Enemy : MonoBehaviour
 
             if (enemyX + moveX <= myTransform.position.x)
             {
+                myTransform.position = new Vector3(enemyX + moveX, myTransform.position.y, 0);
                 speedX *= -1;
             }
 
             if(enemyY - moveY*2 >= myTransform.position.y)
             {
                 speedY *= -1;
+                myTransform.position = new Vector3(myTransform.position.x, enemyY - moveY * 2, 0);
                 direction = false;
             }
 
@@ -115,11 +117,13 @@ public class Enemy : MonoBehaviour
 
             if (enemyX - moveX >= myTransform.position.x)
             {
+                myTransform.position = new Vector3(enemyX - moveX, myTransform.position.y, 0);
                 speedX *= -1;
             }
             if (enemyY <= myTransform.position.y)
             {
                 speedY *= -1;
+                myTransform.position = new Vector3(myTransform.position.x, enemyY, 0);
                 direction = true;
             }
         }
