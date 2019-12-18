@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eef0195749166b745b57d4cf21b5c52d, type: 3}
-  m_Name: 2_Stage
+  m_Name: 3_Stage
   m_EditorClassIdentifier: 
-  StageNo: 2
+  StageNo: 3
   MapScale_X: 16
-  MapScale_Y: 9
-  Stage: {fileID: 11400000, guid: 4aecfc94fc1a555419960269ef84fe7d, type: 2}
+  MapScale_Y: 27
+  Stage: {fileID: 11400000, guid: 2747125227e653045ae469b54ccc382b, type: 2}
   EnemyList:
   - {fileID: 4899448614409643478, guid: 229e32690554c744689f340fe581d940, type: 3}

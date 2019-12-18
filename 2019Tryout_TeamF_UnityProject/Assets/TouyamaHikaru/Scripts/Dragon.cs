@@ -17,7 +17,7 @@ public class Dragon : Enemy
 
         directionSwitch = true;
         direction = true;
-        directioncount = 0;
+        directionCount2 = 0;
     }
 
     // Update is called once per frame

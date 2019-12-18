@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49019ad300cc706469a22c54de70963f, type: 3}
   m_Name: Wave Data
   m_EditorClassIdentifier: 
-  Wave_1: {fileID: 4900000, guid: 0723c06157cf8594597fc4ba47fba93f, type: 3}
-  Wave_2: {fileID: 4900000, guid: 826d1f17030ac5f4eb5b1f6ec68171e9, type: 3}
-  Wave_3: {fileID: 4900000, guid: 5d81d0dfdc869fe47925d81522e321c5, type: 3}
+  Wave:
+  - {fileID: 4900000, guid: 0723c06157cf8594597fc4ba47fba93f, type: 3}
+  - {fileID: 4900000, guid: 826d1f17030ac5f4eb5b1f6ec68171e9, type: 3}
+  - {fileID: 4900000, guid: 5d81d0dfdc869fe47925d81522e321c5, type: 3}

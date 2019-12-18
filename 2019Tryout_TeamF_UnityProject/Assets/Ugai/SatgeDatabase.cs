@@ -11,11 +11,11 @@ using Newtonsoft.Json;
 public class SatgeDatabase : ScriptableObject
 {
     public int StageNo;
-    public int MapScale_X = 16, MapScale_Y = 9;
+    public int MapScale_X = 16, MapScale_Y = 27;
 
     public WaveData Stage;
     public GameObject[,] MapData;
-    public List<GameObject> EnemyList;
+    public List<GameObject> EnemyList = new List<GameObject>();
 }
 
 
@@ -30,38 +30,6 @@ public sealed class DatabaseEditor : Editor
     {
         DrawDefaultInspector();
         data = target as SatgeDatabase;
-        //try
-        //{
-        //    if (data.Stage != null)
-        //    {
-        //        if (GUILayout.Button("Edit", GUILayout.Height(25)))
-        //        {
-
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (GUILayout.Button("Create", GUILayout.Height(25)))
-        //        {
-        //            MapEditor window = EditorWindow.GetWindow<MapEditor>("MapEditor");
-        //            window.Set(data);
-        //        }
-        //    }
-
-        //}
-        ////データの破損や関係ないデータが入っていた場合
-        //catch
-        //{
-        //    Debug.Log("Missing_Correction");
-        //    circuitObject.Puzzle_CompleteData = null;
-        //    if (GUILayout.Button("Create", GUILayout.Height(25)))
-        //    {
-        //        window = EditorWindow.GetWindow<PuzzleEditor>("PuzzleEditor");
-        //        window.Setup(true, circuitObject, null);
-        //        Debug.Log("Create");
-        //    }
-        //}
-
         if (data.EnemyList.Count != 0)
         {
             if (GUILayout.Button("Edit", GUILayout.Height(25)))
@@ -230,6 +198,7 @@ public class MapEditor : EditorWindow
     }
 
 
+    int WaveNo = 0;
     private string json;
     UnityEngine.Object exportData;
     void Export()
@@ -260,7 +229,6 @@ public class MapEditor : EditorWindow
                 loop++;
             }
         }
-        Debug.Log(Data.MapData.Count);
         //書き出し先のフォルダが存在しないのなら作成
 
         if (!Directory.Exists("Assets/GameDatabase"))
@@ -275,7 +243,7 @@ public class MapEditor : EditorWindow
         {
             Directory.CreateDirectory("Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData");
         }
-        string Path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData/Stage" + dataBase.StageNo + "_Wave.json";
+        string Path = "Assets/GameDatabase/" + dataBase.StageNo + "_Stage/WaveData/Stage" + dataBase.StageNo + "_Wave" + WaveNo + ".json";
         json = JsonConvert.SerializeObject(Data, Formatting.Indented);
 
         File.WriteAllText(Path, json);
@@ -294,25 +262,34 @@ public class MapEditor : EditorWindow
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);         
             WaveData data = AssetDatabase.LoadAssetAtPath<WaveData>(path);
-            data.Wave_1 = exportData;
+            data.Wave = new UnityEngine.Object[3];
+            data.Wave[WaveNo] = exportData;
             dataBase.Stage = data;
         }
         else
         {
-            dataBase.Stage.Wave_1 = exportData;
+            dataBase.Stage.Wave[WaveNo] = exportData;
         }
-
+        ++WaveNo;
         EditorUtility.SetDirty(this);
         EditorUtility.SetDirty(dataBase);
         AssetDatabase.SaveAssets();
         EditorUtility.ClearProgressBar();
+        if (WaveNo >= dataBase.Stage.Wave.Length)
+        {
+            Close();
+        }
+        else
+        {
+            Import();
+        }
+
     }
 
     Export_MapData import_deta;
+
     void Import()
     {
-        import_deta = JsonConvert.DeserializeObject<Export_MapData>(dataBase.Stage.Wave_1.ToString());
-
         editData = new Set_Data[Scale_X];
         for (int x = 0; x < Scale_X; x++)
         {
@@ -323,14 +300,24 @@ public class MapEditor : EditorWindow
                 editData[x].Map_Data[y] = new MapData();
             }
         }
-
-        for (int i = 0; i < import_deta.MapData.Count; i++)
+        if (dataBase.Stage != null)
         {
-            if (!(import_deta.MapData[i].X > Scale_X || import_deta.MapData[i].Y > Scale_Y))
+            UnityEngine.Object jsonData = null;
+            jsonData = dataBase.Stage.Wave[WaveNo];
+
+            if (jsonData == null)
             {
-                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].size = import_deta.MapData[i].size;
-                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyNo = import_deta.MapData[i].EnemyNo;
-                editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyPop = true;
+                return;
+            }
+            import_deta = JsonConvert.DeserializeObject<Export_MapData>(jsonData.ToString());
+            for (int i = 0; i < import_deta.MapData.Count; i++)
+            {
+                if (!(import_deta.MapData[i].X > Scale_X || import_deta.MapData[i].Y > Scale_Y))
+                {
+                    editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].size = import_deta.MapData[i].size;
+                    editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyNo = import_deta.MapData[i].EnemyNo;
+                    editData[import_deta.MapData[i].X].Map_Data[import_deta.MapData[i].Y].EnemyPop = true;
+                }
             }
         }
     }
