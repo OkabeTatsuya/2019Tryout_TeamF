@@ -9,7 +9,7 @@ public class EnemyPop : MonoBehaviour
     void Awake()
     {
         Export_MapData Data;
-        Data = JsonConvert.DeserializeObject<Export_MapData>(Stage_Database.Stage.Wave_1.ToString());
+        Data = JsonConvert.DeserializeObject<Export_MapData>(Stage_Database.Stage.Wave[0].ToString());
 
         for (int i = 0; i < Data.MapData.Count; i++)
         {
