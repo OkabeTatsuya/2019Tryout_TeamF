@@ -4,22 +4,14 @@ using UnityEngine;
 
 public class FilmCreate : MonoBehaviour
 {
-    [SerializeField, Tooltip("始点のオブジェクト")]
-    private GameObject _firstObj;
-    [SerializeField, Tooltip("終点のオブジェクト")]
-    private GameObject _endObj;
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
     // 生成できる「まく」のリスト
     [SerializeField, Tooltip("フィルムオブジェクトのリスト")]
     private List<GameObject> _filmList = new List<GameObject>();
-    [SerializeField, Tooltip("ガイド用イメージ")]
-    private GameObject _guide;
     // まく
     private Film _film;
     private LineRenderer _guideLine;
-    // 処理する「まく」のオブジェクト
-    private GameObject _object;
     //「まく」の設定角度
     private float _angle;
     // タッチ座標保存変数
@@ -71,28 +63,32 @@ public class FilmCreate : MonoBehaviour
             {
                 // 始点の座標を取得
                 _touchPos[0] = _mouse.GetMousePoint();
+                _guideLine.SetPosition(0, _touchPos[0]);
                 _bezier.transform.gameObject.SetActive(true);
             }
             if (Input.GetMouseButton(0))
             {
                 // 終点座標を取得
                 _touchPos[1] = _mouse.GetMousePoint();
-                // lineを生成
-                _bezier.SetCurve(_touchPos[0], _touchPos[1]);
-                _guide.SetActive(true);
-                Distance(_guide);
+                _guideLine.SetPosition(0, _touchPos[0]);
+                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                if (distance > 1)
+                {
+                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                }
             }
             if (Input.GetMouseButtonUp(0))
             {
-                _guide.SetActive(false);
                 _touchPos[1] = _mouse.GetMousePoint();
                 // lineを生成
                 _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                StartCoroutine(_bezier.Adjustment());
                 CheckActiveFilm();
                 Distance(_film.gameObject);
             }
         }
     }
+
     private void Distance(GameObject obj)
     {
         float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
@@ -100,7 +96,7 @@ public class FilmCreate : MonoBehaviour
         {
             return;
         }
-        // テストコード 長さ変換
+        // 長さ変換
         obj.transform.localScale = new Vector3(distance, 1 - (distance / 10), obj.transform.localScale.z);
         // 厚さの調節
         if(obj.transform.localScale.y > 1)
@@ -114,7 +110,7 @@ public class FilmCreate : MonoBehaviour
         _film.BoundPower = (10 - distance) / 2;
         if(_film.BoundPower < 0)
         {
-            _film.BoundPower = 0;
+            _film.BoundPower = 0;   
         }
         obj.transform.position = _touchPos[0];
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _mouse.GetAngle(_touchPos[0], _touchPos[1])));
@@ -128,7 +124,6 @@ public class FilmCreate : MonoBehaviour
             // シーン内でオブジェクトのActiveのチェックする
             if(file.activeInHierarchy == false)
             {
-                _object = file;
                 _film.gameObject.SetActive(true);
                 return true;
             }

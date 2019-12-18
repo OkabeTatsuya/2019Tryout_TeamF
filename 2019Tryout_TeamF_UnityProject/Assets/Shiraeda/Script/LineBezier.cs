@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LineBezier : MonoBehaviour
 {
-    private Vector3 _firstObj = Vector3.zero;
-    private Vector3 _endObj = Vector3.zero;
-    [SerializeField, Tooltip("中間地点")]
-    private GameObject _centerObj = null;
+    private Vector3 _firstPoint = Vector3.zero;
+    private Vector3 _endPoint = Vector3.zero;
     [SerializeField, Tooltip("分割するポイント")]
     private int _positionCount = 2;
     [SerializeField, Tooltip("まくの伸びる位置")]
@@ -18,15 +16,18 @@ public class LineBezier : MonoBehaviour
     private bool _debug = false;
     [SerializeField, Tooltip("確認用オブジェクト")]
     private Transform _pointObj = null;
+    // コルーチンの間隔
     private float _SecondTimeHit = 0;
-
+    // コルーチンの保存
     private Coroutine _coroutine;
     // LineRenderer取得用変数
     private LineRenderer _lineRenderer;
+    private float _angle;
 
     // Start is called before the first frame update
     void Start()
     {
+        _centerPoint.y = -2;
         _lineRenderer = GetComponent<LineRenderer>();
         if(_lineRenderer != null)
         {
@@ -40,13 +41,14 @@ public class LineBezier : MonoBehaviour
 
     private void OnDisable()
     {
-        _centerPoint = Vector3.zero;
+        _centerPoint.y = -2;
     }
 
+    // ベジェ曲線で対象のオブジェクトを曲げる
     public Vector3 SetCurve(Vector3 first, Vector3 end)
     {
-        _firstObj = first;
-        _endObj = end;
+        _firstPoint = first;
+        _endPoint = end;
         Debug.Log("座標の計算を開始します。");
         if(_positionCount < 2)
         {
@@ -75,31 +77,34 @@ public class LineBezier : MonoBehaviour
         return Vector3.zero;
     }
 
+    private void HitCenter(Vector3 vector, float Power)
+    {
+        // ベクトルと球の速度を取得して、センターの位置をへこませる。
+    }
+
+    // ベジェ曲線の計算式
     public Vector3 BezierCurve(Vector3 startPoint, Vector3 endPoint, Vector3 center, float t)
     {
-        // ベジェ曲線
+        // ポイント1、ポイント2、ポイント3からなる2次元のベジェ曲線
         Vector3 _point1 = Vector3.Lerp(startPoint, center, t);
         Vector3 _point2 = Vector3.Lerp(center, endPoint, t);
         Vector3 _point3 = Vector3.Lerp(_point1, _point2, t);
-        // Debug.Log(_point3);
-        if(_debug)
+        // 
+        if(_debug && _pointObj != null)
         {
             _pointObj.position = _point3;
         }
-        _centerObj.transform.position = center;
         return _point3;
     }
     public void Hit()
     {
-        _coroutine = StartCoroutine(Move());
+        _coroutine = StartCoroutine(PrototypeHit());
     }
 
-    public IEnumerator Move()
+    public IEnumerator PrototypeHit()
     {
-        Debug.Log("コルーチン開始");
-        while(_SecondTimeHit < 3.0f)
+        while(_SecondTimeHit < 1.0f)
         {
-            Debug.Log("ループ処理");
             _SecondTimeHit += Time.deltaTime;
             _centerPoint = new Vector3(0, Mathf.Sin(Time.time * _speed), 0);
             yield return null;
@@ -109,14 +114,28 @@ public class LineBezier : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public IEnumerator Adjustment()
+    {
+        Debug.Log("コルーチンを開始する");
+        while (_centerPoint.magnitude >= 0.1)
+        {
+            Debug.Log("コルーチンのループ");
+            _centerPoint = Vector3.Lerp(_centerPoint, Vector3.zero, Time.deltaTime * _speed);
+            SetCurve(_firstPoint, _endPoint);
+            yield return null;
+        }
+        _centerPoint = Vector3.zero;
+        Debug.Log("コルーチンの終了");
+    }
+
+    private void Center()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
-        //if (_coroutine == null)
-        //{
-        //    _centerPoint = new Vector3(0, Mathf.Sin(Time.time), 0);
-        //}
-
-        SetCurve(_firstObj,_endObj);
+        // SetCurve(_firstPoint,_endPoint);
     }
 }
