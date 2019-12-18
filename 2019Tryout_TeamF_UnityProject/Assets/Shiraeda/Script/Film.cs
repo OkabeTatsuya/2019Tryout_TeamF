@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Film : MonoBehaviour
 {
+    // 当たり判定
     private Collider2D _collider;
+    // フェイドクラス
     private FadeSprite _fade;
+    // 跳ね返せる強さ
     private float _boundPower;
     public float BoundPower
     {

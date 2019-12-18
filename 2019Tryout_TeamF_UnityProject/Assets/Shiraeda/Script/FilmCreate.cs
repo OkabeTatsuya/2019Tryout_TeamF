@@ -14,7 +14,7 @@ public class FilmCreate : MonoBehaviour
     // filmクラス
     private Film _film;
     // ガイド用のラインレンダラーを生成(テスト版)
-    //private LineRenderer _line;
+    private LineRenderer _line;
 
     // 処理する「まく」のオブジェクト
     private GameObject _object;
@@ -26,7 +26,8 @@ public class FilmCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_line = GetComponent<LineRenderer>();
+
+        _line = GetComponent<LineRenderer>();
         foreach (var film in _filmList)
         {
             _film = film.GetComponent<Film>();
@@ -62,7 +63,7 @@ public class FilmCreate : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 _touchPos[1] = _mouse.GetMousePoint();
-                //_line.SetPositions(_touchPos);
+                _line.SetPositions(_touchPos);
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 _guide.SetActive(true);
                 Distance(_guide);

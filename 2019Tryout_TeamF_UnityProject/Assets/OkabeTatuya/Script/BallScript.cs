@@ -11,13 +11,13 @@ public class BallScript : MonoBehaviour
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
     [SerializeField] float m_moveLimit;
+    [SerializeField] AudioClip m_audioClip;
 
     // Start is called before the first frame update
     void Start()
     {
         ResetPosition();
         StartMove();
-        AudioManager.Instance.PlaySound();
     }
 
     // Update is called once per frame
@@ -35,10 +35,14 @@ public class BallScript : MonoBehaviour
         {
             return;
         }
+
         if(collision.transform.tag == "Film")
         {
             Boost();
         }
+
+        AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
+
     }
 
     private void Boost()
@@ -67,9 +71,13 @@ public class BallScript : MonoBehaviour
     {
         if (m_thisRigidbody.velocity.magnitude > m_moveLimit)
         {
-            //Debug.Log(m_thisRigidbody.velocity.magnitude.ToString());
-
             m_thisRigidbody.velocity = m_thisRigidbody.velocity.normalized * m_moveLimit;
         }
     }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
+    //    
+    //}
 }
