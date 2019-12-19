@@ -51,7 +51,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             if (nowWave >= maxWave)
             {
                 //リザルト
-                Debug.Log("end");
+                Manaeger.Instance.ChangeUI(UIName.Rezult);
             }
             else
             {
