@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     protected float enemyY;
     protected bool direction;  //X軸　false:左  true:右    //Y軸　false:上　true:下
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
+    protected bool direction2;      //コウモリ用方向切り替え
     protected float directionCount;  //方向を変えるたびにカウントが増える （コウモリ用）
     protected float directionCount2; //方向を変えるたびにカウントが増える （ドラゴン用）
     
@@ -93,39 +94,134 @@ public class Enemy : MonoBehaviour
 
     public void RhombusMovement()   //ひし形の移動
     {
-
         // transformを取得
         Transform myTransform = this.transform;
 
-        if(direction == true)
-        {
-            directionCount += Time.deltaTime;
-        }
-        else
-        {
-            directionCount -= Time.deltaTime;
-        }
 
-
-
-        switch((int)directionCount / 1 % 4)
+        if (direction == true)
         {
-            case 0:     //右下
+            if (directionCount == 0)
+            {
+                //座標移動
                 myTransform.Translate(speedX, -speedY, 0);
-                break;
-            case 1:     //左下
+                if (enemyX + moveX <= myTransform.position.x)
+                {
+                    directionCount = 1;
+                }
+
+
+            }
+
+            else if (directionCount == 1)
+            {
+                //座標移動
                 myTransform.Translate(-speedX, -speedY, 0);
-                break;
-            case 2:     //左上
+                if (enemyY - moveY * 2 >= myTransform.position.y)
+                {
+                    directionCount = 2;
+                }
+            }
+
+            else if (directionCount == 2)
+            {
+                //座標移動
                 myTransform.Translate(-speedX, speedY, 0);
-                break;
-            case 3:     //右上
+                if (enemyX - moveX >= myTransform.position.x)
+                {
+                    directionCount = 3;
+                }
+            }
+
+            else if (directionCount == 3)
+            {
+                //座標移動
                 myTransform.Translate(speedX, speedY, 0);
-                break;
-            
+                if (enemyY <= myTransform.position.y)
+                {
+                    directionCount = 0;
+                }
+            }
+        }
+
+        if (direction == false)
+        {
+            if (directionCount == 0)
+            {
+                //座標移動
+                myTransform.Translate(-speedX, -speedY, 0);
+                if (enemyX - moveX >= myTransform.position.x)
+                {
+                    directionCount = 1;
+                }
+
+
+            }
+
+            else if (directionCount == 1)
+            {
+                //座標移動
+                myTransform.Translate(speedX, -speedY, 0);
+                if (enemyY - moveY * 2 >= myTransform.position.y)
+                {
+                    directionCount = 2;
+                }
+            }
+
+            else if (directionCount == 2)
+            {
+                //座標移動
+                myTransform.Translate(speedX, speedY, 0);
+                if (enemyX + moveX <= myTransform.position.x)
+                {
+                    directionCount = 3;
+                }
+            }
+
+            else if (directionCount == 3)
+            {
+                //座標移動
+                myTransform.Translate(-speedX, speedY, 0);
+                if (enemyY <= myTransform.position.y)
+                {
+                    directionCount = 0;
+                }
+            }
         }
 
 
+
+
+
+
+
+        // transformを取得
+        //Transform myTransform = this.transform;
+
+
+        //if (direction == true)
+        //{
+        //    directionCount += Time.deltaTime;
+        //}
+        //else
+        //{
+        //    directionCount -= Time.deltaTime;
+        //}
+
+        //switch((int)directionCount / 1 % 4)
+        //{
+        //    case 0:     //右下
+        //        myTransform.Translate(speedX, -speedY, 0);
+        //        break;
+        //    case 1:     //左下
+        //        myTransform.Translate(-speedX, -speedY, 0);
+        //        break;
+        //    case 2:     //左上
+        //        myTransform.Translate(-speedX, speedY, 0);
+        //        break;
+        //    case 3:     //右上
+        //        myTransform.Translate(speedX, speedY, 0);
+        //        break;
+        //}
 
     }
 
@@ -184,8 +280,6 @@ public class Enemy : MonoBehaviour
 
         if (directionCount2 == 4)
         {
-
-
             if (directionSwitch == true)
             {
                 // 座標移動
@@ -208,10 +302,8 @@ public class Enemy : MonoBehaviour
                     directionSwitch = true;
                     directionCount2 = 0;
                 }
-
             }
         }
-
     }
 
 
@@ -241,22 +333,27 @@ public class Enemy : MonoBehaviour
 
         if (Ball.gameObject.tag == "Wall")
         {
-
-
-            directionCount += 2;
             directionCount2++;
+            //directionCount += 2;
+
+            directionCount += 3;
+            if(directionCount >= 4)
+            {
+                directionCount -= 4;
+            }
+
 
             if (direction == true)
             {
                 direction = false;
+               
             }
+
             else
             {
                 direction = true;
             }
+
         }
-
-
     }
-
 }
