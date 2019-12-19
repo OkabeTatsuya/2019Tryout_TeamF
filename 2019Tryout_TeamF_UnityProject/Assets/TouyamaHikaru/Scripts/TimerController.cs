@@ -14,7 +14,7 @@ public class TimerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        totalTime = Manaeger.Instance.m_managerData.m_maxTime[0];
+        totalTime = Manaeger.Instance.ResetTimeCount();
 
     }
 
@@ -26,5 +26,12 @@ public class TimerController : MonoBehaviour
         totalTime -= Time.deltaTime;
         seconds = (int)totalTime;
         timerText.text = seconds.ToString();
+        Manaeger.Instance.m_nowTime = (int)totalTime;
+
+        if (totalTime <= 0)
+        {
+            Manaeger.Instance.ChangeUI(UIName.Rezult);
+            Manaeger.Instance.m_isRezualt = true;
+        }
     }
 }

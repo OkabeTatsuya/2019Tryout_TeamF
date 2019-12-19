@@ -29,6 +29,12 @@ public class BallScript : MonoBehaviour
     {
         m_velocity = m_thisRigidbody.velocity;
     }
+
+    private void Awake()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     private void FixedUpdate()
     {
         MoveLimit();

@@ -20,6 +20,7 @@ public class DebugObject : MonoBehaviour
 
     void test()
     {
+
         //Mesh mesh = GetComponent<MeshFilter>().mesh;
         //
         //Vector3[] vectores = mesh.vertices;
