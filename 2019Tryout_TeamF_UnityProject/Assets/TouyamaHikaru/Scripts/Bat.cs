@@ -13,7 +13,7 @@ public class Bat : Enemy
         enemyX = myTransform.position.x;
         enemyY = myTransform.position.y;
 
-        direction = true;
+        direction = false;
     }
 
     // Update is called once per frame
@@ -21,6 +21,9 @@ public class Bat : Enemy
     {
 
         RhombusMovement();
+
+        //Debug.Log(directionCount);
+        //Debug.Log(direction);
 
     }
 
