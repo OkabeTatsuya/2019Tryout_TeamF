@@ -60,7 +60,6 @@ public class Film : MonoBehaviour
         // 衝突したオブジェクトがボールか
         if (collision.transform.tag == "Ball")
         {
-            _bezier.AngleMoveDown(transform.forward);
             Rigidbody2D rigid = collision.transform.gameObject.GetComponent<Rigidbody2D>();
             Debug.Log("コルーチンを開始します");
             foreach (ContactPoint2D point in collision.contacts)
