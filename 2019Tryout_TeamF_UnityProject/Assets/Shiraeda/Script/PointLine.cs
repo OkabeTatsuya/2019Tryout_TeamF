@@ -11,11 +11,6 @@ public class PointLine : MonoBehaviour
         _lineRenderer = GetComponent<LineRenderer>();
     }
 
-    public void SetPoint()
-    {
-
-    }
-
     public void SetPointLine(int index, Vector2 position)
     {
         if(_lineRenderer == null)

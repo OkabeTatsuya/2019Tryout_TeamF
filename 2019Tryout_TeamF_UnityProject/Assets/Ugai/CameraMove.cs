@@ -46,7 +46,7 @@ public class CameraMove : MonoBehaviour
             return;
         }
 
-        if (playerTar != null)
+        if (Player != null)
         {
             //シンプルな追従カメラ
             this.transform.position = new Vector3(transform.position.x, playerTar.position.y, -10);
