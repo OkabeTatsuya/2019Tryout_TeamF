@@ -9,9 +9,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     int nowWave = -1;
     int maxWave = 0;
     [HideInInspector] public int EnemyCou = 0;
+    [SerializeField] GameObject Player;
 
     void Start()
     {
+        Player.SetActive(true);
         maxWave = Stage_Database.Stage.Wave.Length - 1;
         Wave_change();
     }

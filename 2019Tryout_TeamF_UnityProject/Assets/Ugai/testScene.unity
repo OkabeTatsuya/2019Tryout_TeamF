@@ -484,6 +484,11 @@ PrefabInstance:
       propertyPath: m_audioClip1
       value: 
       objectReference: {fileID: 8300000, guid: 114f703d6d37f5a43b3620f6d7d61115, type: 3}
+    - target: {fileID: 4852232304794799146, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
+        type: 3}
+      propertyPath: m_film
+      value: 
+      objectReference: {fileID: 1903798548}
     - target: {fileID: 4852232304794799141, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_Sprite
@@ -1239,6 +1244,18 @@ MonoBehaviour:
   timeScale: 0.075
   slowTime: 0.05
   isSlowDown: 0
+--- !u!114 &949574634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4852232304794799146, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1961912924}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949574632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7bf0306342904c41b517a26be578e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1056429528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1261,6 +1278,16 @@ PrefabInstance:
       propertyPath: _bezier
       value: 
       objectReference: {fileID: 792804722}
+    - target: {fileID: 1636017103531570418, guid: b4438fb47a9b2c4429118743f415a113,
+        type: 3}
+      propertyPath: ball
+      value: 
+      objectReference: {fileID: 949574634}
+    - target: {fileID: 1636017103531570418, guid: b4438fb47a9b2c4429118743f415a113,
+        type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 1903798549}
     - target: {fileID: 1636017103531570421, guid: b4438fb47a9b2c4429118743f415a113,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1611,7 +1638,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _ball
       value: 
-      objectReference: {fileID: 1710943790}
+      objectReference: {fileID: 949574632}
     - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: _pointObj
@@ -1788,12 +1815,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd9c1486392bd944eb8e0fa5c552c5cf, type: 3}
---- !u!1 &1710943790 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4852232304794799145, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
-    type: 3}
-  m_PrefabInstance: {fileID: 400445818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1714686144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,7 +1839,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714686144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c77f61b6f32b864ca3d7a9f407c1163, type: 3}
   m_Name: 
@@ -1830,6 +1851,7 @@ MonoBehaviour:
   - {fileID: 1910944990}
   - {fileID: 934393390}
   EnemyCou: 0
+  Player: {fileID: 949574632}
 --- !u!4 &1714686146
 Transform:
   m_ObjectHideFlags: 0
@@ -2019,6 +2041,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b1b0b26fa3e3f448d937120c35b2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &1903798549 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1636017103531570419, guid: b4438fb47a9b2c4429118743f415a113,
+    type: 3}
+  m_PrefabInstance: {fileID: 1056429528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1903798551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1636017103531570421, guid: b4438fb47a9b2c4429118743f415a113,
@@ -2217,17 +2245,17 @@ PrefabInstance:
     - target: {fileID: 4852232304794799145, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4852232304794799142, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.955
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4852232304794799142, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.955
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4852232304794799142, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
@@ -2329,6 +2357,11 @@ PrefabInstance:
       propertyPath: m_audioClip1
       value: 
       objectReference: {fileID: 8300000, guid: 114f703d6d37f5a43b3620f6d7d61115, type: 3}
+    - target: {fileID: 4852232304794799146, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
+        type: 3}
+      propertyPath: m_film
+      value: 
+      objectReference: {fileID: 1903798548}
     - target: {fileID: 4852232304794799141, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_Sprite
