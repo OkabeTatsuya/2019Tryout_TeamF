@@ -186,16 +186,19 @@ public class LineBezier : MonoBehaviour
         _ballRigidbody.velocity = Vector2.zero;
         Debug.Log("伸びる直前");
         _centerPoint = Vector2.zero;
-        while ((_hitPoint + _boundDir * 10).magnitude - _centerPoint.magnitude > 0.5)
+        while (_SecondTimeHit < 1.0f)
         {
+            _SecondTimeHit += Time.deltaTime;
+            Debug.Log((_hitPoint + _boundDir * 5).magnitude - _centerPoint.magnitude);
             Debug.Log("伸びます");
-            _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * 10, Time.deltaTime * _speed);
+            _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * 5, Time.deltaTime * _speed);
             SetCurve(_firstPoint, _endPoint);
             yield return null;
         }
+        _SecondTimeHit = 0;
         Debug.Log("伸ばし終わり");
         _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
-        _ballRigidbody.velocity = -_boundDir * 20;
+        _ballRigidbody.velocity = -_boundDir * 10;
         StartCoroutine(PrototypeHit());
         yield return null;
     }
