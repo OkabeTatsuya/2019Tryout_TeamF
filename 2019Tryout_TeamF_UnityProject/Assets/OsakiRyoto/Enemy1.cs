@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy1 : MonoBehaviour
 {
     public float moveX;     //どこまで動くか
     public float moveY;
@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
 
     public int hp;      //現在のHP
     public int hp_max;  //HPの最高値
+
     ParticleSystem particle;
 
     // Start is called before the first frame update
@@ -328,14 +329,14 @@ public class Enemy : MonoBehaviour
     {
         if (Ball.gameObject.tag == "Ball")
         {
+            particle = this.GetComponent<ParticleSystem>();
+            particle.Play();
             Damage();
             DestroyEnemy();
         }
 
         if (Ball.gameObject.tag == "Wall")
         {
-            particle = this.GetComponent<ParticleSystem>();
-            particle.Play();
             directionCount2++;
             //directionCount += 2;
 
