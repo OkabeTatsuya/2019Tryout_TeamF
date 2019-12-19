@@ -30,6 +30,7 @@ public class LineBezier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _coroutine = null;
         _centerPoint.y = -2;
         _lineRenderer = GetComponent<LineRenderer>();
         if(_lineRenderer != null)
@@ -55,12 +56,10 @@ public class LineBezier : MonoBehaviour
     {
         _firstPoint = first;
         _endPoint = end;
-        Debug.Log("座標の計算を開始します。");
         if(_positionCount < 2)
         {
             return Vector3.zero;
-        }
-        
+        }   
         if (_lineRenderer != null)
         {
             _lineRenderer.positionCount = _positionCount;
@@ -111,8 +110,15 @@ public class LineBezier : MonoBehaviour
 
     public void Hit()
     {
-        Debug.Log("デバック");
-        _coroutine = StartCoroutine(PrototypeHit());
+        if (_coroutine == null)
+        {
+            _coroutine = StartCoroutine(PrototypeHit());
+        }
+    }
+    public void HitPoint(Vector3 vector)
+    {
+        Debug.Log(vector);
+        Debug.Log(transform.position);
     }
 
     public IEnumerator PrototypeHit()
@@ -124,9 +130,7 @@ public class LineBezier : MonoBehaviour
             SetCurve(_firstPoint, _endPoint);
             yield return null;
         }
-        _firstPoint = Vector3.zero;
-        _endPoint = Vector3.zero;
-        SetCurve(_firstPoint, _endPoint);
+        SetCurve(Vector3.zero, Vector3.zero);
         _SecondTimeHit = 0f;
         _coroutine = null;
         gameObject.SetActive(false);
@@ -152,7 +156,7 @@ public class LineBezier : MonoBehaviour
             return;
         }
         // ボールの現在のベクトル
-        var velocity = _ballRigidbody.velocity;
+        var velocity  = _ballRigidbody.velocity;
         _centerPoint += velocity;
     }
 
