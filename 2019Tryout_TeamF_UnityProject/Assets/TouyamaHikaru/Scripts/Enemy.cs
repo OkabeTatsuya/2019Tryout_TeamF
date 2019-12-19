@@ -221,6 +221,7 @@ public class Enemy : MonoBehaviour
         if (hp <= 0)
         {
             this.gameObject.SetActive(false);
+            GameManager.Instance.Enemy_Del();
         }
     }
 
