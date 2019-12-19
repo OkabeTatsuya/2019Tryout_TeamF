@@ -1571,6 +1571,11 @@ PrefabInstance:
       propertyPath: _pointObj
       value: 
       objectReference: {fileID: 792804724}
+    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
+        type: 3}
+      propertyPath: _force
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 322079197327133011, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2272,7 +2277,7 @@ PrefabInstance:
     - target: {fileID: 4852232304794799146, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
       propertyPath: m_moveLimit
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4852232304794799146, guid: f3c5cf94ea7ff114fb54b9e023480ff3,
         type: 3}
