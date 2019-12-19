@@ -4,22 +4,15 @@ using UnityEngine;
 
 public class FilmCreate : MonoBehaviour
 {
-    [SerializeField, Tooltip("始点のオブジェクト")]
-    private GameObject _firstObj;
-    [SerializeField, Tooltip("終点のオブジェクト")]
-    private GameObject _endObj;
+    [SerializeField, Tooltip("当たり判定")]
+    private GameObject[] _colObject = new GameObject[3];
+    private List<Collision> _collisionList = new List<Collision>();
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
-    // 生成できる「まく」のリスト
-    [SerializeField, Tooltip("フィルムオブジェクトのリスト")]
-    private List<GameObject> _filmList = new List<GameObject>();
-    [SerializeField, Tooltip("ガイド用イメージ")]
-    private GameObject _guide;
-    // まく
+    //// まく
+    [SerializeField]
     private Film _film;
     private LineRenderer _guideLine;
-    // 処理する「まく」のオブジェクト
-    private GameObject _object;
     //「まく」の設定角度
     private float _angle;
     // タッチ座標保存変数
@@ -31,12 +24,6 @@ public class FilmCreate : MonoBehaviour
     void Start()
     {
         _guideLine = GetComponent<LineRenderer>();
-        GameObject obj = new GameObject();
-        // Prefabに設定されたオブジェクトを生成
-        foreach (var film in _filmList)
-        {
-            _film = film.GetComponent<Film>();
-        }
         _touchPos = new Vector3[2];
     }
 
@@ -53,7 +40,7 @@ public class FilmCreate : MonoBehaviour
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                _touchPos[0] = _mouse.GetMousePoint();
+                _touchPos[0] = _mouse.GetWorldPoint();
             }
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
             {
@@ -61,7 +48,7 @@ public class FilmCreate : MonoBehaviour
             }
             if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
-                _touchPos[1] = _mouse.GetMousePoint();
+                _touchPos[1] = _mouse.GetWorldPoint();
             }
         }
         else
@@ -70,29 +57,38 @@ public class FilmCreate : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 // 始点の座標を取得
-                _touchPos[0] = _mouse.GetMousePoint();
-                _bezier.transform.gameObject.SetActive(true);
+                _touchPos[0] = _mouse.GetWorldPoint();
+                _guideLine.SetPosition(0, _touchPos[0]);
+                _bezier.StartCurve();
             }
             if (Input.GetMouseButton(0))
             {
                 // 終点座標を取得
-                _touchPos[1] = _mouse.GetMousePoint();
-                // lineを生成
-                _bezier.SetCurve(_touchPos[0], _touchPos[1]);
-                _guide.SetActive(true);
-                Distance(_guide);
+                _touchPos[1] = _mouse.GetWorldPoint();
+                _guideLine.SetPosition(0, _touchPos[0]);
+                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                if (distance > 2)
+                {
+                    _bezier.transform.gameObject.SetActive(true);
+                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                }
             }
             if (Input.GetMouseButtonUp(0))
             {
-                _guide.SetActive(false);
-                _touchPos[1] = _mouse.GetMousePoint();
+                _touchPos[1] = _mouse.GetWorldPoint();
                 // lineを生成
-                _bezier.SetCurve(_touchPos[0], _touchPos[1]);
-                CheckActiveFilm();
+                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                if (distance > 2)
+                {
+                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                }
+                _film.gameObject.SetActive(true);
+                StartCoroutine(_bezier.Adjustment());
                 Distance(_film.gameObject);
             }
         }
     }
+
     private void Distance(GameObject obj)
     {
         float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
@@ -100,7 +96,7 @@ public class FilmCreate : MonoBehaviour
         {
             return;
         }
-        // テストコード 長さ変換
+        // 長さ変換
         obj.transform.localScale = new Vector3(distance, 1 - (distance / 10), obj.transform.localScale.z);
         // 厚さの調節
         if(obj.transform.localScale.y > 1)
@@ -111,30 +107,30 @@ public class FilmCreate : MonoBehaviour
         {
             obj.transform.localScale = new Vector3(obj.transform.localScale.x, 0.1f, obj.transform.localScale.z);
         }
+        // 
         _film.BoundPower = (10 - distance) / 2;
         if(_film.BoundPower < 0)
         {
-            _film.BoundPower = 0;
+            _film.BoundPower = 0;   
         }
         obj.transform.position = _touchPos[0];
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _mouse.GetAngle(_touchPos[0], _touchPos[1])));
     }
 
-    // 有効化できる「まく」をチェックする関数
-    public bool CheckActiveFilm()
-    {
-        foreach (var file in _filmList)
-        {
-            // シーン内でオブジェクトのActiveのチェックする
-            if(file.activeInHierarchy == false)
-            {
-                _object = file;
-                _film.gameObject.SetActive(true);
-                return true;
-            }
-        }
-        return false;
-    }
+    //// 有効化できる「まく」をチェックする関数
+    //public bool CheckActiveFilm()
+    //{
+    //    foreach (var file in _filmList)
+    //    {
+    //        // シーン内でオブジェクトのActiveのチェックする
+    //        if(file.activeInHierarchy == false)
+    //        {
+    //            _film.gameObject.SetActive(true);
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
     // Update is called once per frame
     void Update()

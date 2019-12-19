@@ -46,13 +46,23 @@ public class Film : MonoBehaviour
     {
         Debug.Log("球をはじいた");
         // フェイドアウトスタート
-        if(_fade == null || _bezier == null)
+        if (_fade == null || _bezier == null)
         {
             Debug.Log("足りないコンポーネントが存在します");
             return;
         }
-        _bezier.Hit();
-        _collider.enabled = false;
-        gameObject.SetActive(false);
+        // 衝突したオブジェクトがボールか
+
+        if (collision.transform.tag == "Ball")
+        {
+            _bezier.Hit();
+
+            foreach (ContactPoint2D point in collision.contacts)
+            {
+                _bezier.HitPoint(point.point);
+            }
+            _collider.enabled = false;
+            gameObject.SetActive(false);
+        }
     }
 }
