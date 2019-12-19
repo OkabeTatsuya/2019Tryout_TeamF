@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy_remake : MonoBehaviour
 {
+    
     public float moveX;     //どこまで動くか
     public float moveY;
     public float speedX;    //スピード
@@ -12,27 +13,12 @@ public class Enemy : MonoBehaviour
     protected float enemyY;
     protected bool direction;  //X軸　false:左  true:右    //Y軸　false:上　true:下
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
-    protected bool direction2;      //コウモリ用方向切り替え
     protected float directionCount;  //方向を変えるたびにカウントが増える （コウモリ用）
     protected float directionCount2; //方向を変えるたびにカウントが増える （ドラゴン用）
-    
 
-    public int hp;      //現在のHP
-    public int hp_max;  //HPの最高値
+    public int hp;
+    public int hp_max;
     ParticleSystem particle;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void LateralMovement()   //横移動
     {
@@ -40,7 +26,7 @@ public class Enemy : MonoBehaviour
         Transform myTransform = this.transform;
 
         
-        //右に移動
+
         if (direction == true)
         {
             // 座標移動
@@ -52,7 +38,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        //左に移動
         else if (direction == false)
         {
             myTransform.Translate(-speedX, 0, 0);
@@ -64,12 +49,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void VerticalMovement()  //縦移動
+    public void VerticalMovement()
     {
         // transformを取得
         Transform myTransform = this.transform;
 
-        //上に移動
         if (direction == true)
         {
             //座標移動
@@ -81,7 +65,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        //下に移動
         else if (direction == false)
         {
             myTransform.Translate(0, -speedY, 0);
@@ -93,140 +76,45 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void RhombusMovement()   //ひし形の移動
+    public void RhombusMovement()
     {
+
         // transformを取得
         Transform myTransform = this.transform;
 
-
-        if (direction == true)
+        if(direction == true)
         {
-            if (directionCount == 0)
-            {
-                //座標移動
-                myTransform.Translate(speedX, -speedY, 0);
-                if (enemyX + moveX <= myTransform.position.x)
-                {
-                    directionCount = 1;
-                }
-
-
-            }
-
-            else if (directionCount == 1)
-            {
-                //座標移動
-                myTransform.Translate(-speedX, -speedY, 0);
-                if (enemyY - moveY * 2 >= myTransform.position.y)
-                {
-                    directionCount = 2;
-                }
-            }
-
-            else if (directionCount == 2)
-            {
-                //座標移動
-                myTransform.Translate(-speedX, speedY, 0);
-                if (enemyX - moveX >= myTransform.position.x)
-                {
-                    directionCount = 3;
-                }
-            }
-
-            else if (directionCount == 3)
-            {
-                //座標移動
-                myTransform.Translate(speedX, speedY, 0);
-                if (enemyY <= myTransform.position.y)
-                {
-                    directionCount = 0;
-                }
-            }
+            directionCount += Time.deltaTime;
+        }
+        else
+        {
+            directionCount -= Time.deltaTime;
         }
 
-        if (direction == false)
+        Debug.Log((int)directionCount / 1 % 4);
+
+        switch((int)directionCount / 1 % 4)
         {
-            if (directionCount == 0)
-            {
-                //座標移動
-                myTransform.Translate(-speedX, -speedY, 0);
-                if (enemyX - moveX >= myTransform.position.x)
-                {
-                    directionCount = 1;
-                }
-
-
-            }
-
-            else if (directionCount == 1)
-            {
-                //座標移動
+            case 0:
                 myTransform.Translate(speedX, -speedY, 0);
-                if (enemyY - moveY * 2 >= myTransform.position.y)
-                {
-                    directionCount = 2;
-                }
-            }
-
-            else if (directionCount == 2)
-            {
-                //座標移動
-                myTransform.Translate(speedX, speedY, 0);
-                if (enemyX + moveX <= myTransform.position.x)
-                {
-                    directionCount = 3;
-                }
-            }
-
-            else if (directionCount == 3)
-            {
-                //座標移動
+                break;
+            case 1:
+                myTransform.Translate(-speedX, -speedY, 0);
+                break;
+            case 2:
                 myTransform.Translate(-speedX, speedY, 0);
-                if (enemyY <= myTransform.position.y)
-                {
-                    directionCount = 0;
-                }
-            }
+                break;
+            case 3:
+                myTransform.Translate(speedX, speedY, 0);
+                break;
+            
         }
 
 
-
-
-
-
-
-        // transformを取得
-        //Transform myTransform = this.transform;
-
-
-        //if (direction == true)
-        //{
-        //    directionCount += Time.deltaTime;
-        //}
-        //else
-        //{
-        //    directionCount -= Time.deltaTime;
-        //}
-
-        //switch((int)directionCount / 1 % 4)
-        //{
-        //    case 0:     //右下
-        //        myTransform.Translate(speedX, -speedY, 0);
-        //        break;
-        //    case 1:     //左下
-        //        myTransform.Translate(-speedX, -speedY, 0);
-        //        break;
-        //    case 2:     //左上
-        //        myTransform.Translate(-speedX, speedY, 0);
-        //        break;
-        //    case 3:     //右上
-        //        myTransform.Translate(speedX, speedY, 0);
-        //        break;
-        //}
 
     }
 
-    public void Lateral_Vertical_Movement2()    //上下に２回ずつ動く処理
+    public void Lateral_Vertical_Movement2()
     {
         // transformを取得
         Transform myTransform = this.transform;
@@ -281,6 +169,8 @@ public class Enemy : MonoBehaviour
 
         if (directionCount2 == 4)
         {
+
+
             if (directionSwitch == true)
             {
                 // 座標移動
@@ -303,25 +193,29 @@ public class Enemy : MonoBehaviour
                     directionSwitch = true;
                     directionCount2 = 0;
                 }
+
             }
         }
+
     }
 
-
     //死亡確認と処理
-    IEnumerator DestroyEnemy()
+    /*public void DestroyEnemy()
     {
         if (hp <= 0)
         {
-            speedX = 0;
-            speedY = 0;
-            var alpha = this.GetComponent<SpriteRenderer>();
-            alpha.color = new Color(1, 1, 1, 0);
-            this.GetComponent<CircleCollider2D>().enabled = false;
-            yield return new WaitWhile(() => particle.IsAlive(true));
             this.gameObject.SetActive(false);
-            GameManager.Instance.Enemy_Del();
         }
+    }*/
+    IEnumerator DestroyEnemy()
+    {
+        speedX = 0;
+        speedY = 0;
+        var alpha = this.GetComponent<SpriteRenderer>();
+        alpha.color = new Color(1, 1, 1, 0);
+        this.GetComponent<CircleCollider2D>().enabled = false;
+        yield return new WaitWhile(() => particle.IsAlive(true));
+        this.gameObject.SetActive(false);
     }
 
     //ヒットポイント減少
@@ -335,34 +229,37 @@ public class Enemy : MonoBehaviour
         if (Ball.gameObject.tag == "Ball")
         {
             particle = this.GetComponent<ParticleSystem>();
+            hp--;
             particle.Play();
-            Damage();
-            StartCoroutine(DestroyEnemy());
+            if(hp > 0)
+            {
+                Damage();
+            }
+            else
+            {
+                StartCoroutine(DestroyEnemy());
+            }
+
         }
 
         if (Ball.gameObject.tag == "Wall")
         {
+            Debug.Log("a");
+
+            directionCount += 2;
             directionCount2++;
-            //directionCount += 2;
-
-            directionCount += 3;
-            if(directionCount >= 4)
-            {
-                directionCount -= 4;
-            }
-
 
             if (direction == true)
             {
                 direction = false;
-               
             }
-
             else
             {
                 direction = true;
             }
-
         }
+
+
     }
+
 }
