@@ -13,6 +13,8 @@ public class BallScript : MonoBehaviour
     [SerializeField] float m_moveLimit;
     [SerializeField] AudioClip m_audioClip;
 
+    //Manaeger m_managerScr = Manaeger.Instance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,12 @@ public class BallScript : MonoBehaviour
     {
 
     }
+
+    private void Awake()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     private void FixedUpdate()
     {
         MoveLimit();

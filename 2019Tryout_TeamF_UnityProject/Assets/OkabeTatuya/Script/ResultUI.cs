@@ -11,13 +11,17 @@ public class ResultUI : UIBase
     // Start is called before the first frame update
     void Start()
     {
-        SendUI();
-        m_resultUI.text = Manaeger.Instance.m_gameScoer.ToString();
-        m_rankUI.sprite = Manaeger.Instance.SetRankImage();
     }
 
     // Update is called once per frame
     void Update()
     {
+        ChengeData();
+    }
+
+    void ChengeData()
+    {
+        m_resultUI.text = Manaeger.Instance.m_gameScoer.ToString();
+        m_rankUI.sprite = Manaeger.Instance.SetRankImage();
     }
 }

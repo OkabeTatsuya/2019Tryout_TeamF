@@ -8,7 +8,7 @@ public class UIController : UIBase
     [SerializeField] GameObject[] m_uiObject;
 
     [SerializeField] bool[] m_visibleUI;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -19,9 +19,19 @@ public class UIController : UIBase
     // Update is called once per frame
     void Update()
     {
+        GetVisble();
         VisibleUI();
         InVisibleUI();
     }
+
+    void GetVisble()
+    {
+        for (int i = 0; i < Manaeger.Instance.m_visibleUI.Length; i++)
+        {
+            m_visibleUI[i] = Manaeger.Instance.m_visibleUI[i];
+        }
+    }
+
 
     void VisibleUI()
     {
@@ -29,7 +39,7 @@ public class UIController : UIBase
         {
             if (m_visibleUI[i])
             {
-                m_uiObject[i].SetActive(true);
+                m_uiObject[i].SetActive(true);           
             }
         }
     }

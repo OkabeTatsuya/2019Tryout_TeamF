@@ -23,10 +23,12 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
 {
     public GameManagerData m_managerData;
     public int m_gameScoer;
-    public bool[] m_visibleUI;
+    public int m_nowTime;
+    public bool[] m_visibleUI= {true,false,false,false};
     public bool m_resetData;
     public bool m_nextWaveFlag;
     public bool m_addOnesFlag;
+    public bool m_isRezualt;
 
     List<GameObject> m_uiObject;
     List<string> m_uiKey;
@@ -40,6 +42,8 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     // Start is called before the first frame update
     void Start()
     {
+
+        //m_visibleUI = m_managerData.m_startVisivleUI;
     }
 
     // Update is called once per frame
@@ -47,13 +51,8 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     {
         Hunder();
         ActhveUI();
+        GotoRezult();
 
-    }
-
-
-    private void Awake()
-    {
-        m_visibleUI = m_managerData.m_startVisivleUI;
     }
 
     //選択されたUIを表示
@@ -130,6 +129,7 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     void GameReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("GameManager",LoadSceneMode.Additive);
     }
     
     public Sprite SetRankImage()
@@ -156,14 +156,22 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
         }
     }
 
-    public void CreateScore(int num)
+    public void AddScore()
     {
-        m_gameScoer = num * m_managerData.m_scoerDelta;
+        m_gameScoer += m_nowTime * m_managerData.m_scoerDelta;
     }
 
     public void AddUIObject(GameObject obj, string key)
     {
         m_uiObject.Add(obj);
         m_uiKey.Add(key);
+    }
+
+    void GotoRezult()
+    {
+        if(m_isRezualt && Input.GetMouseButtonDown(0))
+        {
+            GameReStart();
+        }
     }
 }
