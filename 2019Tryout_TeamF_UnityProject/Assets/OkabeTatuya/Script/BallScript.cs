@@ -32,18 +32,15 @@ public class BallScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(m_film == null)
-        {
-            return;
-        }
-
         if(collision.transform.tag == "Film")
         {
-            Boost();
+            //Boost();
         }
-
+        if (collision.transform.tag == "Enemy")
+        {
+            HitStop.Instance.SlowDown();
+        }
         AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
-
     }
 
     private void Boost()

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    
     public float moveX;     //どこまで動くか
     public float moveY;
     public float speedX;    //スピード
@@ -103,7 +102,7 @@ public class Enemy : MonoBehaviour
             directionCount -= Time.deltaTime;
         }
 
-        Debug.Log((int)directionCount / 1 % 4);
+
 
         switch((int)directionCount / 1 % 4)
         {
@@ -236,7 +235,7 @@ public class Enemy : MonoBehaviour
 
         if (Ball.gameObject.tag == "Wall")
         {
-            Debug.Log("a");
+
 
             directionCount += 2;
             directionCount2++;
