@@ -14,10 +14,6 @@ public class LineBezier : MonoBehaviour
     private Vector3 _centerPoint;
     [SerializeField, Tooltip("反発速度")]
     private float _speed = 1.0f;
-    [SerializeField, Header("Debug")]
-    private bool _debug = false;
-    [SerializeField, Tooltip("確認用オブジェクト")]
-    private Transform _pointObj = null;
     [SerializeField, Tooltip("ボール")]
     private GameObject _ball = null;
 
@@ -34,6 +30,8 @@ public class LineBezier : MonoBehaviour
     private Rigidbody2D _ballRigidbody;
     private Vector2 _boundDir;
     private Vector2 _hitPoint;
+    [SerializeField, Tooltip("デバック"), Header("Debug")]
+    private bool _active = false;
     // デバック用のラインレンダラー表示
     [SerializeField, Header("Debug")]
     private PointLine _Line;
@@ -41,6 +39,9 @@ public class LineBezier : MonoBehaviour
     private PointLine _ballLine;
     [SerializeField]
     private PointLine _BoundLine;
+    [SerializeField, Tooltip("確認用オブジェクト")]
+    private Transform _pointObj = null;
+
     public float Angle
     {
         set { _angle = value; }
@@ -121,7 +122,7 @@ public class LineBezier : MonoBehaviour
         Vector3 _point2 = Vector3.Lerp(center, endPoint, t);
         Vector3 _point3 = Vector3.Lerp(_point1, _point2, t);
         // 
-        if(_debug && _pointObj != null)
+        if(_active && _pointObj != null)
         {
             _pointObj.position = _point3;
         }
@@ -142,13 +143,15 @@ public class LineBezier : MonoBehaviour
 
         _hitPoint = hitpos - center;
         _boundDir = (_dir + vector / 10);
-        _Line.SetPointLine(0, (_firstPoint + _endPoint) / 2);
-        _Line.SetPointLine(1, (_firstPoint + _endPoint) / 2 + new Vector3(_dir.x, _dir.y, 0));
-        _ballLine.SetPointLine(0, hitpos);
-        _ballLine.SetPointLine(1, hitpos - vector / 10);
-        _BoundLine.SetPointLine(0, hitpos);
-        _BoundLine.SetPointLine(1, hitpos - _boundDir);
-
+        if (_active)
+        {
+            _Line.SetPointLine(0, (_firstPoint + _endPoint) / 2);
+            _Line.SetPointLine(1, (_firstPoint + _endPoint) / 2 + new Vector3(_dir.x, _dir.y, 0));
+            _ballLine.SetPointLine(0, hitpos);
+            _ballLine.SetPointLine(1, hitpos - vector / 10);
+            _BoundLine.SetPointLine(0, hitpos);
+            _BoundLine.SetPointLine(1, hitpos - _boundDir);
+        }
         //_centerPoint = _hitPoint + _boundDir * 10;
         float rad = Mathf.Atan2(vector.y, vector.x);
         Debug.Log(rad * Mathf.Rad2Deg + "衝突したオブジェクトの入射角");

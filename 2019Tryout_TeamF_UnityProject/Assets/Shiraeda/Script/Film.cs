@@ -39,10 +39,6 @@ public class Film : MonoBehaviour
 
     private void Start()
     {
-        //foreach(Transform child in transform)
-        //{
-        //    _fade = child.GetComponent<FadeSprite>();
-        //}
     }
 
     private void Update()
