@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-public class EnemyPop : SingletonMonoBehaviour<EnemyPop>
+public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     public SatgeDatabase Stage_Database;
     public CameraMove Camera;
@@ -9,9 +9,11 @@ public class EnemyPop : SingletonMonoBehaviour<EnemyPop>
     int nowWave = -1;
     int maxWave = 0;
     [HideInInspector] public int EnemyCou = 0;
+    [SerializeField] GameObject Player;
 
     void Start()
     {
+        Player.SetActive(true);
         maxWave = Stage_Database.Stage.Wave.Length - 1;
         Wave_change();
     }
@@ -51,6 +53,7 @@ public class EnemyPop : SingletonMonoBehaviour<EnemyPop>
             if (nowWave >= maxWave)
             {
                 //リザルト
+                Manaeger.Instance.ChangeUI(UIName.Rezult);
             }
             else
             {

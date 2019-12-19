@@ -6,25 +6,33 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
     Rigidbody2D m_thisRigidbody;
-    [SerializeField] Film m_film;
     [SerializeField] float m_speed;
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
+    [SerializeField] Vector2 m_filmJampVcetor;
+    [SerializeField] float m_jumpPower;
     [SerializeField] float m_moveLimit;
-    [SerializeField] AudioClip m_audioClip;
-
+    private Vector2 m_velocity;
+    public Vector2 Veloctiy
+    {
+        get { return m_velocity; }
+        set { m_velocity = value; }
+    }
     // Start is called before the first frame update
     void Start()
     {
+        m_thisRigidbody = this.GetComponent<Rigidbody2D>();
+
         ResetPosition();
-        StartMove();
+        //StartMove();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        m_velocity = m_thisRigidbody.velocity;
     }
+
     private void FixedUpdate()
     {
         MoveLimit();
@@ -32,40 +40,24 @@ public class BallScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(m_film == null)
-        {
-            return;
-        }
-
         if(collision.transform.tag == "Film")
         {
             Boost();
         }
-
+        if (collision.transform.tag == "Enemy")
+        {
+            HitStop.Instance.SlowDown();
+        }
+        if (collision.transform.tag == "StageFilm")
+        {
+            HitStageFilm();
+        }
         AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
-
-    }
-
-    private void Boost()
-    {
-        // 膜の大きさに合わせて強く跳ねる
-        // 1がデフォルト値
-        Debug.Log(m_film.BoundPower);
-        m_thisRigidbody.velocity = m_thisRigidbody.velocity * (1 + m_film.BoundPower);
-        m_film.BoundPower = 0f;
     }
 
     void ResetPosition()
     {
         transform.position = m_stratPosition;
-    }
-
-    void StartMove()
-    {
-        m_thisRigidbody = this.GetComponent<Rigidbody2D>();
-        Vector3 force = m_startMoveVector * m_speed;
-
-        m_thisRigidbody.AddForce(force);
     }
 
     void MoveLimit()
@@ -76,9 +68,9 @@ public class BallScript : MonoBehaviour
         }
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
-    //    
-    //}
+    void HitStageFilm()
+    {
+        m_thisRigidbody.velocity = m_thisRigidbody.velocity * (1 + m_jumpPower);
+
+    }
 }

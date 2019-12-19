@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Film : MonoBehaviour
 {
-    // 当たり判定
-    private Collider2D _collider;
     // フェイドクラス
     private FadeSprite _fade;
     // 跳ね返せる強さ
     private float _boundPower;
+    // 当たり判定
+    [SerializeField, Tooltip("角度")]
+    private Collider2D _collider;
+
     public float BoundPower
     {
         get { return _boundPower; }
@@ -18,6 +20,8 @@ public class Film : MonoBehaviour
 
     [SerializeField]
     private LineBezier _bezier = null;
+    [SerializeField]
+    private BallScript ball;
 
     private void Awake()
     {
@@ -35,10 +39,11 @@ public class Film : MonoBehaviour
 
     private void Start()
     {
-        foreach(Transform child in transform)
-        {
-            _fade = child.GetComponent<FadeSprite>();
-        }
+    }
+
+    private void Update()
+    {
+        _bezier.AngleMoveDown(transform.up);
     }
 
     // Start is called before the first frame update
@@ -46,23 +51,24 @@ public class Film : MonoBehaviour
     {
         Debug.Log("球をはじいた");
         // フェイドアウトスタート
-        if (_fade == null || _bezier == null)
+        if (_bezier == null)
         {
             Debug.Log("足りないコンポーネントが存在します");
             return;
         }
-        // 衝突したオブジェクトがボールか
 
+        // 衝突したオブジェクトがボールか
         if (collision.transform.tag == "Ball")
         {
-            _bezier.Hit();
-
+            Rigidbody2D rigid = collision.transform.gameObject.GetComponent<Rigidbody2D>();
+            Debug.Log("コルーチンを開始します");
             foreach (ContactPoint2D point in collision.contacts)
             {
-                _bezier.HitPoint(point.point);
+                _bezier.HitCheck(point.point, ball.Veloctiy, 1);
             }
+            StopAllCoroutines();
+            StartCoroutine(_bezier.Extend());
             _collider.enabled = false;
-            gameObject.SetActive(false);
         }
     }
 }

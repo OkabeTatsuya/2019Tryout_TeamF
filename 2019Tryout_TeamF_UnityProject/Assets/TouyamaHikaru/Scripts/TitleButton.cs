@@ -61,7 +61,7 @@ public class TitleButton : MonoBehaviour
 
         if(alpha <= 0)
         {
-            Debug.Log("Fade End!!!");
+            Manaeger.Instance.ChangeUI(UIName.GameScene);
 
             //paneloutのalphaの値が0になったら非表示にする
             panelout.gameObject.SetActive(false);
