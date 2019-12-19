@@ -50,6 +50,7 @@ public class BallScript : MonoBehaviour
         }
         if (collision.transform.tag == "StageFilm")
         {
+            Debug.Log("sdg");
             HitStageFilm();
         }
         AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);

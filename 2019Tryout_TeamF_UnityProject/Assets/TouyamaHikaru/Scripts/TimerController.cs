@@ -30,8 +30,11 @@ public class TimerController : MonoBehaviour
 
         if (totalTime <= 0)
         {
+            Manaeger.Instance.GameEnd();
             Manaeger.Instance.ChangeUI(UIName.Rezult);
             Manaeger.Instance.m_isRezualt = true;
+
+            Manaeger.Instance.GameEnd();
         }
     }
 }

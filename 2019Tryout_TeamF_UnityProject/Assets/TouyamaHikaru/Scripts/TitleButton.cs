@@ -10,6 +10,7 @@ public class TitleButton : MonoBehaviour
 
     private bool DownPush = false;
 
+    public GameObject[] GameSetObject;
     
     float speed = 0.01f;    //アルファ値を上げるスピード
     float red, green, blue, alpha;              //Imageのcolorの変数
@@ -67,6 +68,8 @@ public class TitleButton : MonoBehaviour
             panelout.gameObject.SetActive(false);
             panelout2.gameObject.SetActive(false);
             panelout3.gameObject.SetActive(false);
+
+            Manaeger.Instance.GameStart();
         }
     }
 

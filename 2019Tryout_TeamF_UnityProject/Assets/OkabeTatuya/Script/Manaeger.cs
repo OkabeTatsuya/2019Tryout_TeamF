@@ -29,6 +29,7 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     public bool m_nextWaveFlag;
     public bool m_addOnesFlag;
     public bool m_isRezualt;
+    public GameObject[] GameData;
 
     List<GameObject> m_uiObject;
     List<string> m_uiKey;
@@ -95,11 +96,18 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
         //m_managerData.m_uiObject[2].SetActive(true);
     }
 
-    void GameStart()
+    public void GameStart()
     {
-        if (m_gameStart)
+        for (int i = 0; i < GameData.Length; i++)
         {
-
+            GameData[i].SetActive(true);
+        }
+    }
+    public void GameEnd()
+    {
+        for (int i = 0; i < GameData.Length; i++)
+        {
+            GameData[i].SetActive(false);
         }
     }
 
