@@ -24,6 +24,5 @@ public class TimerController : MonoBehaviour
         totalTime -= Time.deltaTime;
         seconds = (int)totalTime;
         timerText.text = seconds.ToString();
-
     }
 }
