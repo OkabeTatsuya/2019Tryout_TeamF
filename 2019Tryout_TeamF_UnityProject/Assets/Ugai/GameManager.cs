@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-public class EnemyPop : SingletonMonoBehaviour<EnemyPop>
+public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     public SatgeDatabase Stage_Database;
     public CameraMove Camera;
@@ -51,6 +51,7 @@ public class EnemyPop : SingletonMonoBehaviour<EnemyPop>
             if (nowWave >= maxWave)
             {
                 //リザルト
+                Debug.Log("end");
             }
             else
             {
