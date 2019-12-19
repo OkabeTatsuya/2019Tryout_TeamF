@@ -45,8 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mouse: {fileID: 0}
-  _film: {fileID: 0}
   _bezier: {fileID: 0}
+  _collision: {fileID: 0}
+  _film: {fileID: 0}
+  _fristObj: {fileID: 0}
+  _endObj: {fileID: 0}
 --- !u!120 &7701742896573937102
 LineRenderer:
   m_ObjectHideFlags: 0

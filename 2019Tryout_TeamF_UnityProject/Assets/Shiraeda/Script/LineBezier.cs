@@ -16,13 +16,19 @@ public class LineBezier : MonoBehaviour
     private float _speed = 1.0f;
     [SerializeField, Tooltip("ボール")]
     private GameObject _ball = null;
+    // 反射できる力
+    [SerializeField, Tooltip("加わる力")]
+    private float _force = 20;
+    [SerializeField, Tooltip("へこむ深さ")]
+    private float _dent = 10;
+
+    // LineRenderer取得用変数
+    private LineRenderer _lineRenderer;
 
     // コルーチンの間隔
     private float _SecondTimeHit = 0;
     // コルーチンの保存
     private Coroutine _coroutine;
-    // LineRenderer取得用変数
-    private LineRenderer _lineRenderer;
     // ラインの角度
     private float _angle;
     // ラインの向き
@@ -41,10 +47,6 @@ public class LineBezier : MonoBehaviour
     private PointLine _boundLine;
     [SerializeField, Tooltip("確認用オブジェクト")]
     private Transform _pointObj = null;
-    [SerializeField, Tooltip("力")]
-    private float _force = 10;
-    [SerializeField]
-    private float _dent = 10;
     private Renderer _renderer;
     private Vector2 _ballSize;
     private Vector2 _vertexPosition;
@@ -57,14 +59,15 @@ public class LineBezier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _lineRenderer = GetComponent<LineRenderer>();
         _renderer = _ball.GetComponent<Renderer>();
+
         if(_renderer != null)
         {
             _ballSize = _renderer.bounds.size;
         }
         _coroutine = null;
         _centerPoint.y = -2;
-        _lineRenderer = GetComponent<LineRenderer>();
         if(_lineRenderer != null)
         {
             _lineRenderer.positionCount = _positionCount;
@@ -122,6 +125,15 @@ public class LineBezier : MonoBehaviour
         _centerPoint.y = -2;
     }
 
+    public void Stop()
+    {
+        StopAllCoroutines();
+        if (_ballRigidbody.bodyType == RigidbodyType2D.Kinematic)
+        {
+            _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+
     // ベジェ曲線の計算式
     public Vector3 BezierCurve(Vector3 startPoint, Vector3 endPoint, Vector3 center, float t)
     {
@@ -137,13 +149,6 @@ public class LineBezier : MonoBehaviour
         return _point3;
     }
 
-    public void Hit()
-    {
-        if (_coroutine == null)
-        {
-            _coroutine = StartCoroutine(PrototypeHit());
-        }
-    }
     public void HitCheck(Vector2 hitPoint, Vector2 vector, float force)
     {
         //現在のlineの中心座標を取得
@@ -198,12 +203,11 @@ public class LineBezier : MonoBehaviour
         {
             // 曲線の移動
             SetCurve(_firstPoint, _endPoint);
-
             _SecondTimeHit += Time.deltaTime;
-            //Debug.Log((_hitPoint + _boundDir * _force).magnitude - _centerPoint.magnitude);
+            Debug.Log((_hitPoint + _boundDir * _force).magnitude - _centerPoint.magnitude);
             Debug.Log("伸びます");
-            Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _dir * _dent, Time.deltaTime * _speed);
-            _ball.transform.position = _vertexPosition - _dir * _ballSize.x;
+            Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
+            _ball.transform.position = _vertexPosition - _boundDir * _ballSize.x / 2;
             _centerPoint = moveing_distance;
 
             _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
@@ -212,7 +216,7 @@ public class LineBezier : MonoBehaviour
         _SecondTimeHit = 0;
         Debug.Log("伸ばし終わり");
         _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
-        _ballRigidbody.velocity = -_dir * _force;
+        _ballRigidbody.velocity = -_boundDir * _force;
         //AudioManager.Instance.PlaySE(AudioManager.SEClipName.)
         StartCoroutine(PrototypeHit());
         yield return null;
