@@ -6,20 +6,23 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "CreateScriptable/Manager/GameManagerData")]
 public class GameManagerData : ScriptableObject
 {
-    enum UIName {
-        Nown,
+    public enum UIName {
         Title,
         GameScene,
         Rezult,
-        GameOver
+        GameOver,
+        Nown
     }
 
-    enum WaveNum
+    public enum WaveNum
     {
         Wave1,
         Wave2,
         Wave3
     }
+
+    //public GameObject[] m_uiObject;
+    public UIName m_UIName;
 
     public int[] m_maxTime;
 
@@ -27,7 +30,7 @@ public class GameManagerData : ScriptableObject
 
     public int[] m_rancScoer;
 
-    public bool m_startVisivleUI;
+    public bool[] m_startVisivleUI;
     
     public int m_scoerDelta;
 }
