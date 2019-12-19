@@ -202,8 +202,8 @@ public class LineBezier : MonoBehaviour
             _SecondTimeHit += Time.deltaTime;
             //Debug.Log((_hitPoint + _boundDir * _force).magnitude - _centerPoint.magnitude);
             Debug.Log("伸びます");
-            Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
-            _ball.transform.position = _vertexPosition - _boundDir * _ballSize.x;
+            Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _dir * _dent, Time.deltaTime * _speed);
+            _ball.transform.position = _vertexPosition - _dir * _ballSize.x;
             _centerPoint = moveing_distance;
 
             _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
@@ -212,7 +212,7 @@ public class LineBezier : MonoBehaviour
         _SecondTimeHit = 0;
         Debug.Log("伸ばし終わり");
         _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
-        _ballRigidbody.velocity = -_boundDir * _force;
+        _ballRigidbody.velocity = -_dir * _force;
         //AudioManager.Instance.PlaySE(AudioManager.SEClipName.)
         StartCoroutine(PrototypeHit());
         yield return null;

@@ -14,9 +14,10 @@ public class Enemy : MonoBehaviour
     protected bool directionSwitch; //方向を変えるための変数   false:上下    true:左右
     protected float directionCount;  //方向を変えるたびにカウントが増える （コウモリ用）
     protected float directionCount2; //方向を変えるたびにカウントが増える （ドラゴン用）
+    
 
-    public int hp;
-    public int hp_max;
+    public int hp;      //現在のHP
+    public int hp_max;  //HPの最高値
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
         Transform myTransform = this.transform;
 
         
-
+        //右に移動
         if (direction == true)
         {
             // 座標移動
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        //左に移動
         else if (direction == false)
         {
             myTransform.Translate(-speedX, 0, 0);
@@ -60,11 +62,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void VerticalMovement()
+    public void VerticalMovement()  //縦移動
     {
         // transformを取得
         Transform myTransform = this.transform;
 
+        //上に移動
         if (direction == true)
         {
             //座標移動
@@ -76,6 +79,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        //下に移動
         else if (direction == false)
         {
             myTransform.Translate(0, -speedY, 0);
@@ -87,7 +91,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void RhombusMovement()
+    public void RhombusMovement()   //ひし形の移動
     {
 
         // transformを取得
@@ -106,16 +110,16 @@ public class Enemy : MonoBehaviour
 
         switch((int)directionCount / 1 % 4)
         {
-            case 0:
+            case 0:     //右下
                 myTransform.Translate(speedX, -speedY, 0);
                 break;
-            case 1:
+            case 1:     //左下
                 myTransform.Translate(-speedX, -speedY, 0);
                 break;
-            case 2:
+            case 2:     //左上
                 myTransform.Translate(-speedX, speedY, 0);
                 break;
-            case 3:
+            case 3:     //右上
                 myTransform.Translate(speedX, speedY, 0);
                 break;
             
@@ -125,7 +129,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void Lateral_Vertical_Movement2()
+    public void Lateral_Vertical_Movement2()    //上下に２回ずつ動く処理
     {
         // transformを取得
         Transform myTransform = this.transform;
@@ -210,12 +214,14 @@ public class Enemy : MonoBehaviour
 
     }
 
+
     //死亡確認と処理
     public void DestroyEnemy()
     {
         if (hp <= 0)
         {
             this.gameObject.SetActive(false);
+            GameManager.Instance.Enemy_Del();
         }
     }
 
