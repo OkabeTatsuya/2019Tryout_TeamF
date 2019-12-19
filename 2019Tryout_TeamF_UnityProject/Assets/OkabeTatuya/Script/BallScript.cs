@@ -6,7 +6,6 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
     Rigidbody2D m_thisRigidbody;
-    [SerializeField] Film m_film;
     [SerializeField] float m_speed;
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
@@ -52,15 +51,6 @@ public class BallScript : MonoBehaviour
             HitStop.Instance.SlowDown();
         }
         AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
-    }
-
-    private void Boost()
-    {
-        // 膜の大きさに合わせて強く跳ねる
-        // 1がデフォルト値
-        Debug.Log(m_film.BoundPower);
-        m_thisRigidbody.velocity = m_thisRigidbody.velocity * (1 + m_film.BoundPower);
-        m_film.BoundPower = 0f;
     }
 
     void ResetPosition()

@@ -34,13 +34,20 @@ public class LineBezier : MonoBehaviour
     private bool _active = false;
     // デバック用のラインレンダラー表示
     [SerializeField, Header("Debug")]
-    private PointLine _Line;
+    private PointLine _line;
     [SerializeField]
     private PointLine _ballLine;
     [SerializeField]
-    private PointLine _BoundLine;
+    private PointLine _boundLine;
     [SerializeField, Tooltip("確認用オブジェクト")]
     private Transform _pointObj = null;
+    [SerializeField, Tooltip("力")]
+    private float _force = 10;
+    [SerializeField]
+    private float _dent = 10;
+    private Renderer _renderer;
+    private Vector2 _ballSize;
+    private Vector2 _vertexPosition;
 
     public float Angle
     {
@@ -50,6 +57,11 @@ public class LineBezier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _renderer = _ball.GetComponent<Renderer>();
+        if(_renderer != null)
+        {
+            _ballSize = _renderer.bounds.size;
+        }
         _coroutine = null;
         _centerPoint.y = -2;
         _lineRenderer = GetComponent<LineRenderer>();
@@ -57,6 +69,7 @@ public class LineBezier : MonoBehaviour
         {
             _lineRenderer.positionCount = _positionCount;
         }
+        
         _lineRenderer.startWidth = 0.5f;
         _lineRenderer.endWidth = 0.5f;
         _ballRigidbody = _ball.GetComponent<Rigidbody2D>();
@@ -99,6 +112,7 @@ public class LineBezier : MonoBehaviour
             Vector3 pointBezier = BezierCurve(first, end, center, t);
             _lineRenderer.SetPosition(i, pointBezier);
         }
+        _vertexPosition = _lineRenderer.GetPosition(_positionCount / 2);
         return Vector3.zero;
     }
 
@@ -106,12 +120,6 @@ public class LineBezier : MonoBehaviour
     public void StartCurve()
     {
         _centerPoint.y = -2;
-    }
-
-    private void HitCenter(Vector3 vector, float Power)
-    {
-
-        // ベクトルと球の速度を取得して、センターの位置をへこませる。
     }
 
     // ベジェ曲線の計算式
@@ -136,33 +144,31 @@ public class LineBezier : MonoBehaviour
             _coroutine = StartCoroutine(PrototypeHit());
         }
     }
-    public void HitCheck(Vector2 hitpos, Vector2 vector, float force)
+    public void HitCheck(Vector2 hitPoint, Vector2 vector, float force)
     {
         //現在のlineの中心座標を取得
         Vector2 center = ((_firstPoint + _endPoint) / 2);
 
-        _hitPoint = hitpos - center;
-        _boundDir = (_dir + vector / 10);
-        if (_active)
-        {
-            _Line.SetPointLine(0, (_firstPoint + _endPoint) / 2);
-            _Line.SetPointLine(1, (_firstPoint + _endPoint) / 2 + new Vector3(_dir.x, _dir.y, 0));
-            _ballLine.SetPointLine(0, hitpos);
-            _ballLine.SetPointLine(1, hitpos - vector / 10);
-            _BoundLine.SetPointLine(0, hitpos);
-            _BoundLine.SetPointLine(1, hitpos - _boundDir);
-        }
+        _hitPoint = hitPoint - center;
+        _boundDir = ((_dir + vector)).normalized;
+
+        Debug.Log(_dir.normalized);
+        Debug.Log(vector.normalized);
         //_centerPoint = _hitPoint + _boundDir * 10;
         float rad = Mathf.Atan2(vector.y, vector.x);
-        Debug.Log(rad * Mathf.Rad2Deg + "衝突したオブジェクトの入射角");
-        // ボールの力が一定以上
-        if(force > 5)
+
+        if (_active)
         {
+            Debug.Log(_dir + "線の向き");
+            Debug.Log(_boundDir + "反射角");
+            Debug.Log(vector + "入射角");
+            _line.SetPointLine(0, (_firstPoint + _endPoint) / 2);
+            _line.SetPointLine(1, (_firstPoint + _endPoint) / 2 + new Vector3(_dir.x, _dir.y, 0));
+            _ballLine.SetPointLine(0, hitPoint);
+            _ballLine.SetPointLine(1, hitPoint - vector);
+            _boundLine.SetPointLine(0, hitPoint);
+            _boundLine.SetPointLine(1, hitPoint - _boundDir * 10);
         }
-        // ヒット位置
-        Debug.Log(hitpos);
-        // Lineの中心座標
-        Debug.Log(((_firstPoint + _endPoint) / 2));
     }
 
     public IEnumerator PrototypeHit()
@@ -182,23 +188,32 @@ public class LineBezier : MonoBehaviour
 
     public IEnumerator Extend()
     {
+        // ボールの物理挙動を停止
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
+        // 加速度停止
         _ballRigidbody.velocity = Vector2.zero;
         Debug.Log("伸びる直前");
         _centerPoint = Vector2.zero;
         while (_SecondTimeHit < 1.0f)
         {
-            _SecondTimeHit += Time.deltaTime;
-            Debug.Log((_hitPoint + _boundDir * 5).magnitude - _centerPoint.magnitude);
-            Debug.Log("伸びます");
-            _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * 5, Time.deltaTime * _speed);
+            // 曲線の移動
             SetCurve(_firstPoint, _endPoint);
+
+            _SecondTimeHit += Time.deltaTime;
+            //Debug.Log((_hitPoint + _boundDir * _force).magnitude - _centerPoint.magnitude);
+            Debug.Log("伸びます");
+            Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
+            _ball.transform.position = _vertexPosition - _boundDir * _ballSize.x;
+            _centerPoint = moveing_distance;
+
+            _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
             yield return null;
         }
         _SecondTimeHit = 0;
         Debug.Log("伸ばし終わり");
         _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
-        _ballRigidbody.velocity = -_boundDir * 10;
+        _ballRigidbody.velocity = -_boundDir * _force;
+        //AudioManager.Instance.PlaySE(AudioManager.SEClipName.)
         StartCoroutine(PrototypeHit());
         yield return null;
     }
