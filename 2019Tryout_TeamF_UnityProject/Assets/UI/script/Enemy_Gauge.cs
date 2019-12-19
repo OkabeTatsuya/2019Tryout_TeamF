@@ -10,7 +10,7 @@ public class Enemy_Gauge : MonoBehaviour
     [SerializeField]
     GameObject enemy;
     private RectTransform uiImage;
-    private Vector3 offset = new Vector3(0, 2f, 0);//UIを頭上に表示させる
+    private Vector3 offset = new Vector3(0, 1f, 0);//UIを頭上に表示させる
     Enemy script;
     Transform pos;
 
