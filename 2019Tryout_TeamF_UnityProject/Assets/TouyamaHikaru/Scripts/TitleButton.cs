@@ -82,18 +82,13 @@ public class TitleButton : MonoBehaviour
 
     public void PressStart()
     {
-
         //DownPush = true;
         Debug.Log("Press Start!");
         this.gameObject.GetComponent<Image>().sprite = Pushimage;
-        
-        
-
     }
 
     public void ReleseButton()
     {
-
         //クリックして一度しか読まないようにする
         if (!firstPush)
         {
@@ -102,10 +97,7 @@ public class TitleButton : MonoBehaviour
             firstPush = true;
 
             this.gameObject.GetComponent<Image>().sprite = Pushimage;
-
         }
-
-
     }
     void fade()
     {

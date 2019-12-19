@@ -21,7 +21,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Wave_change();
+            Enemy_Del();
         }
     }
 
