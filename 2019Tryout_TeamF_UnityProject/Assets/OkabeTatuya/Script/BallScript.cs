@@ -12,7 +12,12 @@ public class BallScript : MonoBehaviour
     [SerializeField] Vector3 m_stratPosition;
     [SerializeField] float m_moveLimit;
     [SerializeField] AudioClip m_audioClip;
-
+    private Vector2 m_velocity;
+    public Vector2 Veloctiy
+    {
+        get { return m_velocity; }
+        set { m_velocity = value; }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +28,7 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        m_velocity = m_thisRigidbody.velocity;
     }
     private void FixedUpdate()
     {
