@@ -9,8 +9,9 @@ public class BallScript : MonoBehaviour
     [SerializeField] float m_speed;
     [SerializeField] Vector3 m_startMoveVector;
     [SerializeField] Vector3 m_stratPosition;
+    [SerializeField] Vector2 m_filmJampVcetor;
+    [SerializeField] float m_jumpPower;
     [SerializeField] float m_moveLimit;
-    [SerializeField] AudioClip m_audioClip;
     private Vector2 m_velocity;
     public Vector2 Veloctiy
     {
@@ -20,19 +21,16 @@ public class BallScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_thisRigidbody = this.GetComponent<Rigidbody2D>();
+
         ResetPosition();
-        StartMove();
+        //StartMove();
     }
 
     // Update is called once per frame
     void Update()
     {
         m_velocity = m_thisRigidbody.velocity;
-    }
-
-    private void Awake()
-    {
-        this.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -44,11 +42,15 @@ public class BallScript : MonoBehaviour
     {
         if(collision.transform.tag == "Film")
         {
-            //Boost();
+            Boost();
         }
         if (collision.transform.tag == "Enemy")
         {
             HitStop.Instance.SlowDown();
+        }
+        if (collision.transform.tag == "StageFilm")
+        {
+            HitStageFilm();
         }
         AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
     }
@@ -56,14 +58,6 @@ public class BallScript : MonoBehaviour
     void ResetPosition()
     {
         transform.position = m_stratPosition;
-    }
-
-    void StartMove()
-    {
-        m_thisRigidbody = this.GetComponent<Rigidbody2D>();
-        Vector3 force = m_startMoveVector * m_speed;
-
-        m_thisRigidbody.AddForce(force);
     }
 
     void MoveLimit()
@@ -74,9 +68,9 @@ public class BallScript : MonoBehaviour
         }
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    AudioManager.Instance.PlaySE(AudioManager.SEClipName.Rubber);
-    //    
-    //}
+    void HitStageFilm()
+    {
+        m_thisRigidbody.velocity = m_thisRigidbody.velocity * (1 + m_jumpPower);
+
+    }
 }
