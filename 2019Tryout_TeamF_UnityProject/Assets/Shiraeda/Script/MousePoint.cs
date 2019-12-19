@@ -13,13 +13,6 @@ public class MousePoint : MonoBehaviour
     // 表示用オブジェクト
     [SerializeField, Tooltip("入れ替えるマウスカーソル")]
     private GameObject _cursorObj = null;
-    // デバック情報
-    [SerializeField, Header("Debug")]
-    private bool _debug = false;
-
-    [SerializeField, Tooltip("デバック用表示物")]
-    private GameObject _debugObj = null;
-
     // Start is called before the first frame update
     void Start()
     {
