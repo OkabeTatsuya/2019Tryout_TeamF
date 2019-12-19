@@ -309,10 +309,16 @@ public class Enemy : MonoBehaviour
 
 
     //死亡確認と処理
-    public void DestroyEnemy()
+    IEnumerator DestroyEnemy()
     {
         if (hp <= 0)
         {
+            speedX = 0;
+            speedY = 0;
+            var alpha = this.GetComponent<SpriteRenderer>();
+            alpha.color = new Color(1, 1, 1, 0);
+            this.GetComponent<CircleCollider2D>().enabled = false;
+            yield return new WaitWhile(() => particle.IsAlive(true));
             this.gameObject.SetActive(false);
             GameManager.Instance.Enemy_Del();
         }
@@ -328,14 +334,14 @@ public class Enemy : MonoBehaviour
     {
         if (Ball.gameObject.tag == "Ball")
         {
+            particle = this.GetComponent<ParticleSystem>();
+            particle.Play();
             Damage();
-            DestroyEnemy();
+            StartCoroutine(DestroyEnemy());
         }
 
         if (Ball.gameObject.tag == "Wall")
         {
-            particle = this.GetComponent<ParticleSystem>();
-            particle.Play();
             directionCount2++;
             //directionCount += 2;
 
