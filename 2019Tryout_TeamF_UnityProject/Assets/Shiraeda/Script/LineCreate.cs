@@ -6,9 +6,6 @@ public class LineCreate : MonoBehaviour
 {
     [SerializeField, Tooltip("マウスクラス")]
     private MousePoint _mouse = null;
-    // まく
-    [SerializeField]
-    private Film _film;
     private LineRenderer _guideLine;
     //「まく」の設定角度
     private float _angle;
@@ -16,11 +13,20 @@ public class LineCreate : MonoBehaviour
     private Vector3[] _touchPos;
     [SerializeField]
     private LineBezier _bezier = null;
+    [SerializeField]
+    private Film _film;
+    [SerializeField]
+    private GameObject _fristObj = null;
+    [SerializeField]
+    private GameObject _endObj = null;
     // Start is called before the first frame update
     void Start()
     {
         _guideLine = GetComponent<LineRenderer>();
         _touchPos = new Vector3[2];
+        _fristObj.SetActive(false);
+        _endObj.SetActive(false);
+        _film.gameObject.SetActive(false);
     }
 
     private void Create()
@@ -55,13 +61,19 @@ public class LineCreate : MonoBehaviour
                 // 始点の座標を取得
                 _touchPos[0] = _mouse.GetWorldPoint();
                 _guideLine.SetPosition(0, _touchPos[0]);
+                _fristObj.transform.position = _touchPos[0];
                 _bezier.StartCurve();
                 _film.gameObject.SetActive(false);
+                _fristObj.SetActive(true);
+                _endObj.SetActive(true);
+                _bezier.Stop();
+                _bezier.transform.gameObject.SetActive(false);
             }
             if (Input.GetMouseButton(0))
             {
                 // 終点座標を取得
                 _touchPos[1] = _mouse.GetWorldPoint();
+                _endObj.transform.position = _touchPos[1];
                 _guideLine.SetPosition(1, _touchPos[1]);
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 if (distance > 2)
@@ -74,13 +86,22 @@ public class LineCreate : MonoBehaviour
             {
                 _film.gameObject.SetActive(true);
                 _touchPos[1] = _mouse.GetWorldPoint();
-                // lineを生成
+                _endObj.transform.position = _touchPos[1];
+                // 最低必要距離
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 if (distance > 2)
                 {
+                    // ベジェ曲線で曲げる
                     _bezier.SetCurve(_touchPos[0], _touchPos[1]);
                 }
+                else
+                {
+                    _fristObj.SetActive(false);
+                    _endObj.SetActive(false);
+                }
+                // 回転軸を取得
                 _bezier.Angle =  _mouse.GetAngle(_touchPos[0], _touchPos[1]);
+                // 膜をはる演出
                 StartCoroutine(_bezier.Adjustment());
                 Distance(_film.gameObject);
                 // 作成したラインの角度
@@ -89,7 +110,14 @@ public class LineCreate : MonoBehaviour
         }
     }
 
+    // 線の厚さ変更
     private void Thickness()
+    {
+
+    }
+
+    // 線の当たり判定の有無
+    private void Onplus(Collision collision)
     {
 
     }
@@ -114,9 +142,9 @@ public class LineCreate : MonoBehaviour
         }
         // 
         _film.BoundPower = (10 - distance) / 2;
-        if(_film.BoundPower < 0)
+        if (_film.BoundPower < 0)
         {
-            _film.BoundPower = 0;   
+            _film.BoundPower = 0;
         }
         obj.transform.position = _touchPos[0];
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _mouse.GetAngle(_touchPos[0], _touchPos[1])));
