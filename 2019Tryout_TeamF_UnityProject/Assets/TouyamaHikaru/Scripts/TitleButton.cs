@@ -70,6 +70,8 @@ public class TitleButton : MonoBehaviour
             panelout3.gameObject.SetActive(false);
 
             Manaeger.Instance.GameStart();
+            GameManager.Instance.PlayerOn();
+
         }
     }
 
@@ -88,6 +90,7 @@ public class TitleButton : MonoBehaviour
         //DownPush = true;
         Debug.Log("Press Start!");
         this.gameObject.GetComponent<Image>().sprite = Pushimage;
+        GameManager.Instance.GatmeStart();
     }
 
     public void ReleseButton()
