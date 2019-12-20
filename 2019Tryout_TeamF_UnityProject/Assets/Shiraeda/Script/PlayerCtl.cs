@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCtl : MonoBehaviour
 {
-    [SerializeField, Tooltip("キャラクターの移動速度")]
+    [SerializeField, Tooltip("ボールを取得")]
     private float _speed;
     struct InputButton
     {

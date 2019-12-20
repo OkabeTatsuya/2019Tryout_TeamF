@@ -55,31 +55,36 @@ public class LineCreate : MonoBehaviour
         }
         else
         {
+
             // 押した瞬間
             if (Input.GetMouseButtonDown(0))
             {
-                // 始点の座標を取得
-                _touchPos[0] = _mouse.GetWorldPoint();
-                _guideLine.SetPosition(0, _touchPos[0]);
-                _fristObj.transform.position = _touchPos[0];
-                _bezier.StartCurve();
-                _film.gameObject.SetActive(false);
-                _fristObj.SetActive(true);
-                _endObj.SetActive(true);
-                _bezier.Stop();
-                _bezier.transform.gameObject.SetActive(false);
+                if (_bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
+                {
+                    // 始点の座標を取得
+                    _touchPos[0] = _mouse.GetWorldPoint();
+                    _guideLine.SetPosition(0, _touchPos[0]);
+                    _fristObj.transform.position = _touchPos[0];
+                    _bezier.StartCurve();
+                    _film.gameObject.SetActive(false);
+                    _fristObj.SetActive(true);
+                    _endObj.SetActive(true);
+                }
             }
             if (Input.GetMouseButton(0))
             {
-                // 終点座標を取得
-                _touchPos[1] = _mouse.GetWorldPoint();
-                _endObj.transform.position = _touchPos[1];
-                _guideLine.SetPosition(1, _touchPos[1]);
-                float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
-                if (distance > 2)
+                if (_bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
-                    _bezier.transform.gameObject.SetActive(true);
-                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                    // 終点座標を取得
+                    _touchPos[1] = _mouse.GetWorldPoint();
+                    _endObj.transform.position = _touchPos[1];
+                    _guideLine.SetPosition(1, _touchPos[1]);
+                    float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+                    if (distance > 2)
+                    {
+                        _bezier.transform.gameObject.SetActive(true);
+                        _bezier.SetPoints(_touchPos);
+                    }
                 }
             }
             if (Input.GetMouseButtonUp(0))
@@ -89,23 +94,20 @@ public class LineCreate : MonoBehaviour
                 _endObj.transform.position = _touchPos[1];
                 // 最低必要距離
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
-                if (distance > 2)
+                if (distance > 2 && _bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
                     // ベジェ曲線で曲げる
-                    _bezier.SetCurve(_touchPos[0], _touchPos[1]);
+                    _bezier.SetPoints(_touchPos);
+                    _bezier.SetType(LineBezier.LINE_TYPE.START);
+                    Distance(_film.gameObject);
                 }
                 else
                 {
+                    // 線が描けない長さならすべてを非有効化する
+                    _film.gameObject.SetActive(false);
                     _fristObj.SetActive(false);
                     _endObj.SetActive(false);
                 }
-                // 回転軸を取得
-                _bezier.Angle =  _mouse.GetAngle(_touchPos[0], _touchPos[1]);
-                // 膜をはる演出
-                StartCoroutine(_bezier.Adjustment());
-                Distance(_film.gameObject);
-                // 作成したラインの角度
-                Debug.Log(_mouse.GetAngle(_touchPos[0], _touchPos[1]) + "膜の角度");
             }
         }
     }
@@ -140,7 +142,6 @@ public class LineCreate : MonoBehaviour
         {
             obj.transform.localScale = new Vector3(obj.transform.localScale.x, 0.1f, obj.transform.localScale.z);
         }
-        // 
         _film.BoundPower = (10 - distance) / 2;
         if (_film.BoundPower < 0)
         {
