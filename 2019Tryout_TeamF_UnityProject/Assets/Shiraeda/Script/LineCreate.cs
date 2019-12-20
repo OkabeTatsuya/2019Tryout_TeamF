@@ -92,21 +92,18 @@ public class LineCreate : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 _film.gameObject.SetActive(true);
-                _touchPos[1] = _mouse.GetWorldPoint();
-                _endObj.transform.position = _touchPos[1];
                 // 最低必要距離
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 if (distance > 2 && _bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
                     // ベジェ曲線で曲げる
-                    _bezier.transform.gameObject.SetActive(true);
-                    _fristObj.SetActive(true);
-                    _endObj.SetActive(true);
+                    _touchPos[1] = _mouse.GetWorldPoint();
+                    _endObj.transform.position = _touchPos[1];
                     _bezier.SetPoints(_touchPos);
                     _bezier.SetType(LineBezier.LINE_TYPE.START);
                     Distance(_film.gameObject);
                 }
-                else
+                else if(_bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
                     // 線が描けない長さならすべてを非有効化する
                     _film.gameObject.SetActive(false);
