@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ベジェ曲線を描くためのクラス
 public class Bezier : MonoBehaviour
 {
-    private LineRenderer _lineRenderer;
-    // ベジェ曲線を描くためのクラス
+    // 曲線用のLineRenderer
+    protected LineRenderer _lineRenderer;
     [SerializeField]
-    private GameObject[] _bezierPoint;
+    protected GameObject[] _bezierPoint;
     [SerializeField, Tooltip("中心点")]
-    private Vector3 _centerPoint;
+    protected Vector3 _centerPoint;
     [SerializeField, Tooltip("反発速度")]
-    private float _speed = 1.0f;
+    protected float _speed = 1.0f;
     [SerializeField]
-    private int _positionCount = 2;
+    protected int _positionCount = 2;
     [SerializeField]
     private SmakeBound _smake;
 
@@ -61,6 +62,10 @@ public class Bezier : MonoBehaviour
         return _point3;
     }
 
+    public void BezierCurve()
+    {
+
+    }
 
     // Update is called once per frame
     void Update()

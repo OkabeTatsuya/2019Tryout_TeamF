@@ -10,21 +10,26 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     int maxWave = 0;
     [HideInInspector] public int EnemyCou = 0;
     [SerializeField] GameObject Player;
+    Rigidbody2D rig;
+    int EnemyMax = 0;
 
-    void Start()
+    public void GatmeStart()
     {
-        Player.SetActive(true);
+        rig = Player.GetComponent<Rigidbody2D>();
         maxWave = Stage_Database.Stage.Wave.Length - 1;
         Wave_change();
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
+        for (int i = 0; i < 3; i++)
         {
-            Enemy_Del();
+            Import_MapData Data;
+            Data = JsonConvert.DeserializeObject<Import_MapData>(Stage_Database.Stage.Wave[nowWave].ToString());
+            EnemyMax += Data.MapData.Count;
         }
     }
 
+    public void PlayerOn()
+    {
+        Player.SetActive(true);
+    }
 
     void Wave_change()
     {
@@ -52,8 +57,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             //ステージ最後
             if (nowWave >= maxWave)
             {
+                rig.velocity = Vector3.zero;
                 //リザルト
+                Manaeger.Instance.GameEnd(true);
                 Manaeger.Instance.ChangeUI(UIName.Rezult);
+                
             }
             else
             {

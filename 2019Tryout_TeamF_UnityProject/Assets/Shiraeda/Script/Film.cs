@@ -25,7 +25,6 @@ public class Film : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake");
         _collider = GetComponent<Collider2D>();
         _boundPower = 0;
     }
@@ -33,7 +32,6 @@ public class Film : MonoBehaviour
     // オブジェクト有効化時の処理
     private void OnEnable()
     {
-        Debug.Log("有効化された");
         _collider.enabled = true;
     }
 
@@ -63,10 +61,7 @@ public class Film : MonoBehaviour
             {
                 _bezier.HitCheck(point.point, _ball.Veloctiy, 1);
             }
-
-            StopAllCoroutines();
-            Debug.Log("コルーチンを開始します");
-            StartCoroutine(_bezier.Extend());
+            _bezier.SetType(LineBezier.LINE_TYPE.EXTEND);
             foreach(Collider2D col in colliders)
             {
                 col.enabled = false;

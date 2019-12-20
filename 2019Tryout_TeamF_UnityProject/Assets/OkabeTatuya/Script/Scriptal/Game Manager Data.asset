@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6666f38eb8166064b994a2ed39d1ae31, type: 3}
   m_Name: Game Manager Data
   m_EditorClassIdentifier: 
-  m_maxTime: 2d0000003c0000005a000000
+  m_maxTime: 2c010000640000005a000000
   m_ranckUIImage:
   - {fileID: 21300000, guid: 418006b7cb1e78946bd71cab80fa1624, type: 3}
   - {fileID: 21300000, guid: 4a366bdda66f1a0489970452a5a6a32d, type: 3}
   - {fileID: 21300000, guid: cc376e6c3d6f71f4c94ed1dc25d27072, type: 3}
   - {fileID: 21300000, guid: 4438f5673f9414843a3b7a5ae1701db2, type: 3}
-  m_rancScoer: f0000000500000002800000000000000
+  m_rancScoer: 64000000500000002800000000000000
   m_startVisivleUI: 01000000
   m_scoerDelta: 1
