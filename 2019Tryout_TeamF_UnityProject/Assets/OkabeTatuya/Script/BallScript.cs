@@ -32,11 +32,6 @@ public class BallScript : MonoBehaviour
     void Update()
     {
         m_velocity = m_thisRigidbody.velocity;
-
-        if (!GetComponent<SpriteRenderer>().isVisible)
-        {
-            CameraObj.Ball_Return();
-        }
     }
 
     private void FixedUpdate()
