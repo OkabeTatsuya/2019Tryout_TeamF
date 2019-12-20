@@ -187,42 +187,6 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-
-
-
-
-
-
-
-        // transformを取得
-        //Transform myTransform = this.transform;
-
-
-        //if (direction == true)
-        //{
-        //    directionCount += Time.deltaTime;
-        //}
-        //else
-        //{
-        //    directionCount -= Time.deltaTime;
-        //}
-
-        //switch((int)directionCount / 1 % 4)
-        //{
-        //    case 0:     //右下
-        //        myTransform.Translate(speedX, -speedY, 0);
-        //        break;
-        //    case 1:     //左下
-        //        myTransform.Translate(-speedX, -speedY, 0);
-        //        break;
-        //    case 2:     //左上
-        //        myTransform.Translate(-speedX, speedY, 0);
-        //        break;
-        //    case 3:     //右上
-        //        myTransform.Translate(speedX, speedY, 0);
-        //        break;
-        //}
-
     }
 
     public void Lateral_Vertical_Movement2()    //上下に２回ずつ動く処理
