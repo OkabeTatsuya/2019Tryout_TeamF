@@ -12,6 +12,7 @@ public class BallScript : MonoBehaviour
     [SerializeField] Vector2 m_filmJampVcetor;
     [SerializeField] float m_jumpPower;
     [SerializeField] float m_moveLimit;
+    public CameraMove CameraObj;
     private Vector2 m_velocity;
     public Vector2 Veloctiy
     {
@@ -31,6 +32,11 @@ public class BallScript : MonoBehaviour
     void Update()
     {
         m_velocity = m_thisRigidbody.velocity;
+
+        if (!GetComponent<SpriteRenderer>().isVisible)
+        {
+            CameraObj.Ball_Return();
+        }
     }
 
     private void FixedUpdate()

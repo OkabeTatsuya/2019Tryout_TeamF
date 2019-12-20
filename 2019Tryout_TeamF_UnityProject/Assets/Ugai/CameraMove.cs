@@ -56,6 +56,12 @@ public class CameraMove : MonoBehaviour
         }
     }
 
+    public void Ball_Return()
+    {
+        playerTar.position = new Vector3(0, WavePoint[nowWave][0], -10);
+        WaveMove = true;
+    }
+
 
     public void WaveStart()
     {
