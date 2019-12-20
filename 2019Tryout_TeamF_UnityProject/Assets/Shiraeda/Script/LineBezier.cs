@@ -64,6 +64,8 @@ public class LineBezier : MonoBehaviour
     private Vector3 _point;
     [SerializeField]
     private LayerMask _layer = 0;
+    [SerializeField]
+    private GameObject[] _falseObj;
 
     // Start is called before the first frame update
     void Start()
@@ -216,6 +218,10 @@ public class LineBezier : MonoBehaviour
             _nowTime = 0;
             _sin = 0;
             SetType(LINE_TYPE.NON);
+            foreach (var obj in _falseObj)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 

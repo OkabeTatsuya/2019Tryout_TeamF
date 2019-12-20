@@ -162,9 +162,23 @@ MonoBehaviour:
   _positionCount: 20
   _centerPoint: {x: 0, y: 0, z: 0}
   _speed: 10
-  _debug: 1
-  _pointObj: {fileID: 0}
+  _sinSpeed: 10
   _ball: {fileID: 0}
+  _force: 20
+  _dent: 5
+  _active: 0
+  _line: {fileID: 0}
+  _ballLine: {fileID: 0}
+  _boundLine: {fileID: 0}
+  _secondTime: 1.5
+  _layer:
+    serializedVersion: 2
+    m_Bits: 0
+  _falseObj:
+  - {fileID: 322079197327133012}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!60 &512774384
 PolygonCollider2D:
   m_ObjectHideFlags: 0
