@@ -24,6 +24,8 @@ public class LineBezier : MonoBehaviour
     private Vector3 _centerPoint;
     [SerializeField, Tooltip("反発速度")]
     private float _speed = 1.0f;
+    [SerializeField, Tooltip("")]
+    private float _sinSpeed = 1.0f;
     [SerializeField, Tooltip("ボール")]
     private GameObject _ball = null;
     // 反射できる力
@@ -54,14 +56,20 @@ public class LineBezier : MonoBehaviour
     private Renderer _renderer;
     private Vector2 _ballSize;
     private Vector2 _vertexPosition;
-    private Vector2 _centerReversePos;
+    private Vector3 _centerReversePos;
     private float _nowTime = 0;
     [SerializeField]
     private float _secondTime = 1.0f;
+    private float _sin = 0f;
+    private Vector3 _point;
+    [SerializeField]
+    private LayerMask _layer = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        _point = Vector3.zero;
+        _sin = 0;
         _type = LINE_TYPE.NON;
         _firstPoint = Vector3.zero;
         _endPoint = Vector3.zero;
@@ -198,11 +206,28 @@ public class LineBezier : MonoBehaviour
     public void EndMove()
     {
         _nowTime += Time.deltaTime;
+        _sin = Mathf.Sin(Time.time * _sinSpeed);
+        Debug.Log(_sin);
+        Vector3 point = _point * _sin * _dent;
+        Debug.Log(point + "補正座標");
+        _centerPoint = point;
         if(_nowTime > _secondTime)
         {
             _nowTime = 0;
+            _sin = 0;
             SetType(LINE_TYPE.NON);
         }
+    }
+
+    public float CheckRay()
+    {
+        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, _centerPoint.normalized, 3, _layer);
+        if(col)
+        {
+            Debug.Log(col.collider.name);
+            return col.distance;
+        }
+        return _dent;
     }
 
     public void Extend()
@@ -210,17 +235,18 @@ public class LineBezier : MonoBehaviour
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _ballRigidbody.velocity = Vector3.zero;
         Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
-        Vector3 moveing_ball = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x), Time.deltaTime * _speed);
+        Vector3 moveing_ball = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed);
         _ball.transform.position = moveing_ball;
         _centerPoint = moveing_distance;
+        float dent = CheckRay();
         // Debug.Log("値のチェック" + (_centerPoint.magnitude - (_hitPoint + _boundDir * _dent).magnitude));
-        if ((_hitPoint + _boundDir * _dent).magnitude - _centerPoint.magnitude <= 0.1f)
+        if ((_hitPoint + _boundDir * _dent).magnitude - _centerPoint.magnitude <= 0.01f)
         {
             _centerReversePos = -_centerPoint;
+            _point = (_centerPoint.normalized);
 
             _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
             _ballRigidbody.velocity = _centerReversePos * _force;
-
             SetType(LINE_TYPE.END);
         }
     }
@@ -271,5 +297,20 @@ public class LineBezier : MonoBehaviour
         }
         // 線を曲げる
         SetCurve(_firstPoint, _endPoint);
+    }
+
+    private void OnDrawGizmos()
+    {
+        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, _centerPoint.normalized, 3);
+        if (col)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, _centerPoint.normalized * col.distance);
+        }
+        else
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, _centerPoint.normalized * 3);
+        }
     }
 }
