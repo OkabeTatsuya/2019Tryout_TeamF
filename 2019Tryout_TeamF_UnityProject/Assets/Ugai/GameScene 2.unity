@@ -507,7 +507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135041359}
   - component: {fileID: 135041360}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: kabekami
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151131177}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StageFilm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1350,7 +1350,7 @@ GameObject:
   - component: {fileID: 344209719}
   - component: {fileID: 344209721}
   - component: {fileID: 344209720}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (5)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1579,7 +1579,7 @@ GameObject:
   - component: {fileID: 384610945}
   - component: {fileID: 384610947}
   - component: {fileID: 384610946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (10)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1807,7 +1807,7 @@ GameObject:
   - component: {fileID: 481767183}
   - component: {fileID: 481767185}
   - component: {fileID: 481767184}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (1)
   m_TagString: StageFilm
   m_Icon: {fileID: 0}
@@ -1985,7 +1985,7 @@ GameObject:
   - component: {fileID: 496876832}
   - component: {fileID: 496876834}
   - component: {fileID: 496876833}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (9)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2414,7 +2414,7 @@ GameObject:
   - component: {fileID: 657384402}
   - component: {fileID: 657384404}
   - component: {fileID: 657384403}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (7)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2590,7 +2590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717508213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3080,6 +3080,16 @@ PrefabInstance:
       propertyPath: _falseObj.Array.data[3]
       value: 
       objectReference: {fileID: 94791613}
+    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
+        type: 3}
+      propertyPath: _layer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
+        type: 3}
+      propertyPath: _dent
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 322079197327133011, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3159,6 +3169,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: StageFilm
       objectReference: {fileID: 0}
+    - target: {fileID: 5776680270402933849, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 163879322405505272, guid: 57ea8dea27c72294a9bd122b9ec847b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3218,6 +3233,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 31.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506362952212511, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364100082535, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364541794651, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506362925548248, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363014579828, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363132038460, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363148763608, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363296606745, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363310759450, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506363747723592, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364268605301, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364513519760, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364553560610, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364913945529, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613506364964541173, guid: 57ea8dea27c72294a9bd122b9ec847b4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1613506362925548254, guid: 57ea8dea27c72294a9bd122b9ec847b4,
         type: 3}
@@ -3329,7 +3419,7 @@ GameObject:
   - component: {fileID: 1127446753}
   - component: {fileID: 1127446755}
   - component: {fileID: 1127446754}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (3)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -3447,7 +3537,7 @@ GameObject:
   - component: {fileID: 1239210022}
   - component: {fileID: 1239210024}
   - component: {fileID: 1239210023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (6)
   m_TagString: StageFilm
   m_Icon: {fileID: 0}
@@ -3688,7 +3778,7 @@ GameObject:
   - component: {fileID: 1412606486}
   - component: {fileID: 1412606488}
   - component: {fileID: 1412606487}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (8)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -4448,7 +4538,7 @@ GameObject:
   - component: {fileID: 1606571845}
   - component: {fileID: 1606571847}
   - component: {fileID: 1606571846}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (11)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -4762,7 +4852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1690278466}
   - component: {fileID: 1690278468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (12)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -4925,7 +5015,7 @@ GameObject:
   - component: {fileID: 1750079736}
   - component: {fileID: 1750079738}
   - component: {fileID: 1750079737}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (2)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -5081,7 +5171,7 @@ GameObject:
   - component: {fileID: 1860465751}
   - component: {fileID: 1860465750}
   - component: {fileID: 1860465749}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: StageFilm
   m_Icon: {fileID: 0}
@@ -5187,7 +5277,7 @@ GameObject:
   - component: {fileID: 1916189402}
   - component: {fileID: 1916189404}
   - component: {fileID: 1916189403}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square (4)
   m_TagString: Wall
   m_Icon: {fileID: 0}
