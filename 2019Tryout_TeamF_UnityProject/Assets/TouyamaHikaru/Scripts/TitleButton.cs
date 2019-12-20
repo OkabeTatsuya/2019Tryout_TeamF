@@ -7,7 +7,7 @@ public class TitleButton : MonoBehaviour
 {
 
     private bool firstPush = false;
-
+    private bool PressStartFlag = false;
     private bool DownPush = false;
 
     public GameObject[] GameSetObject;
@@ -88,9 +88,14 @@ public class TitleButton : MonoBehaviour
     public void PressStart()
     {
         //DownPush = true;
-        Debug.Log("Press Start!");
-        this.gameObject.GetComponent<Image>().sprite = Pushimage;
-        GameManager.Instance.GatmeStart();
+        if (!PressStartFlag)
+        {
+            Debug.Log("Press Start!");
+
+            PressStartFlag = true;
+            this.gameObject.GetComponent<Image>().sprite = Pushimage;
+            GameManager.Instance.GatmeStart();
+        }
     }
 
     public void ReleseButton()
