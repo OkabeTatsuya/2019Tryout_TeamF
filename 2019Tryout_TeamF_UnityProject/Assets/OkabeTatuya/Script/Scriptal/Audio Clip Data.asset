@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5fafefcbc66e454418b219ea8d095822, type: 3}
   - {fileID: 8300000, guid: a95112f379272184090af3653f05b2a4, type: 3}
   - {fileID: 8300000, guid: a95112f379272184090af3653f05b2a4, type: 3}
+  - {fileID: 8300000, guid: 5fafefcbc66e454418b219ea8d095822, type: 3}
   seClip:
   - {fileID: 8300000, guid: 8f66e4fc90936124c84d35eb5d975cc4, type: 3}
   - {fileID: 8300000, guid: 78f414adaf162164b9a9941696c24a5d, type: 3}

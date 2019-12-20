@@ -53,7 +53,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public void SelectBGM()
     {
-        for (int i = 0; i < m_sceneName.sceneName.Count-1; i++ )
+        for (int i = 0; i < m_sceneName.sceneName.Count; i++ )
         {
             if(m_sceneName.sceneName[i] == SceneManager.GetActiveScene().name)
             {
