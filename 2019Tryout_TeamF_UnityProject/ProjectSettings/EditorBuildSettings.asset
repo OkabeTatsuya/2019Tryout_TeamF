@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/OkabeTatuya/Scenes/GameManager.unity
     guid: 2ddb0c99825e57545930d1b8f45f398e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Ugai/GameScene 2.unity
     guid: bdfbed3bd135afe42aea584ab1f44dca
   m_configObjects: {}
