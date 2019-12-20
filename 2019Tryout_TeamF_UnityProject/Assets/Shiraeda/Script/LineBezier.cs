@@ -66,7 +66,7 @@ public class LineBezier : MonoBehaviour
     private LayerMask _layer = 0;
     [SerializeField]
     private GameObject[] _falseObj;
-
+    private Vector3 vec;
     // Start is called before the first frame update
     void Start()
     {
@@ -180,6 +180,7 @@ public class LineBezier : MonoBehaviour
 
     public void HitCheck(Vector2 hitPoint, Vector2 vector, float force)
     {
+        vec = vector;
         //現在のlineの中心座標を取得
         Vector2 center = ((_firstPoint + _endPoint) / 2);
 
@@ -227,26 +228,31 @@ public class LineBezier : MonoBehaviour
 
     public float CheckRay()
     {
-        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, _centerPoint.normalized, 3, _layer);
-        if(col)
+        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
+        //var _col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, -_dir, _dent, _layer);
+        if (col)
         {
-            Debug.Log(col.collider.name);
             return col.distance;
         }
+        //if(_col)
+        //{
+        //    return _col.distance;
+        //}
         return _dent;
     }
 
     public void Extend()
     {
+        float dent = CheckRay();
+
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _ballRigidbody.velocity = Vector3.zero;
-        Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * _dent, Time.deltaTime * _speed);
-        Vector3 moveing_ball = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed);
+        Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * dent, Time.deltaTime * _speed);
+        Vector3 moveing_ball = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2) , Time.deltaTime * _speed);
         _ball.transform.position = moveing_ball;
         _centerPoint = moveing_distance;
-        float dent = CheckRay();
         // Debug.Log("値のチェック" + (_centerPoint.magnitude - (_hitPoint + _boundDir * _dent).magnitude));
-        if ((_hitPoint + _boundDir * _dent).magnitude - _centerPoint.magnitude <= 0.01f)
+        if ((_hitPoint + _boundDir * dent).magnitude - _centerPoint.magnitude <= 0.01f)
         {
             _centerReversePos = -_centerPoint;
             _point = (_centerPoint.normalized);
@@ -292,8 +298,10 @@ public class LineBezier : MonoBehaviour
                 break;
             case LINE_TYPE.EXTEND:
                 Extend();
+                _falseObj[1].SetActive(false);
                 break;
             case LINE_TYPE.END:
+                _falseObj[1].SetActive(false);
                 EndMove();
                 break;
             case LINE_TYPE.MAX:
@@ -307,16 +315,21 @@ public class LineBezier : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, _centerPoint.normalized, 3);
+        var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
+        //var _col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, -_dir, _dent);
+
         if (col)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, _centerPoint.normalized * col.distance);
+            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, vec * col.distance);
+            //Gizmos.DrawRay((_firstPoint + _endPoint) / 2, -_dir * _col.distance);
         }
         else
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, _centerPoint.normalized * 3);
+            Gizmos.DrawRay((_firstPoint + _endPoint) / 2, vec.normalized * _dent);
+            //Gizmos.DrawRay((_firstPoint + _endPoint) / 2, -_dir * _dent);
+
         }
     }
 }

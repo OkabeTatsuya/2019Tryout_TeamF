@@ -91,11 +91,11 @@ public class LineCreate : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
-                _film.gameObject.SetActive(true);
                 // 最低必要距離
                 float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
                 if (distance > 2 && _bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
+                    _film.gameObject.SetActive(true);
                     // ベジェ曲線で曲げる
                     _touchPos[1] = _mouse.GetWorldPoint();
                     _endObj.transform.position = _touchPos[1];
@@ -115,15 +115,16 @@ public class LineCreate : MonoBehaviour
     }
 
     // 線の厚さ変更
-    private void Thickness()
+    private float Thickness()
     {
-
+        float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
+        return 1 / (distance);
     }
 
     // 線の当たり判定の有無
     private void Onplus(Collision collision)
     {
-
+        
     }
 
     private void Distance(GameObject obj)

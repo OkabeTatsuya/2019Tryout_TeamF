@@ -2212,6 +2212,16 @@ PrefabInstance:
       propertyPath: _falseObj.Array.data[3]
       value: 
       objectReference: {fileID: 97511034}
+    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
+        type: 3}
+      propertyPath: _dent
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
+        type: 3}
+      propertyPath: _layer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 322079197327133011, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: m_LocalPosition.x
