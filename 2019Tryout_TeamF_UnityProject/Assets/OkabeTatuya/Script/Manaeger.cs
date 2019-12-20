@@ -145,7 +145,7 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
         }
     }
 
-    void GameReStart()
+    public void GameReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("GameManager",LoadSceneMode.Additive);
