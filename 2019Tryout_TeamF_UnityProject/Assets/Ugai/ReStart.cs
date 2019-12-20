@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ReStart : MonoBehaviour
 {
+    public Rigidbody2D Player;
+    void Start()
+    {
+        Player.velocity = Vector3.zero;
+        Player.isKinematic = true;
+        Player.GetComponent<Collider2D>().enabled = false;
+    }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
