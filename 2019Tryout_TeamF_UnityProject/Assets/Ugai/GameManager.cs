@@ -15,6 +15,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     public void GatmeStart()
     {
+        EnemyCou = 0;
+        nowWave = -1;
         rig = Player.GetComponent<Rigidbody2D>();
         maxWave = Stage_Database.Stage.Wave.Length - 1;
         Wave_change();
