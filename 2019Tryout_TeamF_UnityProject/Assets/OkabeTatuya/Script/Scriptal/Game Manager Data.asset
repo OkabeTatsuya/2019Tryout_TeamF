@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6666f38eb8166064b994a2ed39d1ae31, type: 3}
   m_Name: Game Manager Data
   m_EditorClassIdentifier: 
-  m_maxTime: 05000000640000005a000000
+  m_maxTime: 2c010000640000005a000000
   m_ranckUIImage:
   - {fileID: 21300000, guid: 418006b7cb1e78946bd71cab80fa1624, type: 3}
   - {fileID: 21300000, guid: 4a366bdda66f1a0489970452a5a6a32d, type: 3}
