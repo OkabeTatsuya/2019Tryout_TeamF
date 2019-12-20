@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Ugai/GameScene 2.unity
+    guid: bdfbed3bd135afe42aea584ab1f44dca
   - enabled: 0
     path: Assets/Scenes/TitleScene.unity
     guid: fa3531070c54fce4aae5e982a357e894
