@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TitleScene.unity
     guid: fa3531070c54fce4aae5e982a357e894
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene.unity
     guid: 6e4311a8e2e9f00428a99f765f36f602
   - enabled: 0
@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GameOverScene.unity
     guid: 071f9690d225bfd489fd7c25c5028737
-  - enabled: 1
+  - enabled: 0
     path: Assets/OkabeTatuya/Scenes/GameManager.unity
     guid: 2ddb0c99825e57545930d1b8f45f398e
+  - enabled: 1
+    path: Assets/Ugai/GameScene 2.unity
+    guid: bdfbed3bd135afe42aea584ab1f44dca
   m_configObjects: {}
