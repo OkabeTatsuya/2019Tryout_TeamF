@@ -148,7 +148,6 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     public void GameReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("GameManager",LoadSceneMode.Additive);
     }
     
     public Sprite SetRankImage()
