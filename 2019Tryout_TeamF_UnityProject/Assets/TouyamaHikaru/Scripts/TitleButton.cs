@@ -103,6 +103,7 @@ public class TitleButton : MonoBehaviour
             firstPush = true;
 
             this.gameObject.GetComponent<Image>().sprite = Pushimage;
+            AudioManager.Instance.PlaySE(AudioManager.SEClipName.Start);
         }
     }
     void fade()
