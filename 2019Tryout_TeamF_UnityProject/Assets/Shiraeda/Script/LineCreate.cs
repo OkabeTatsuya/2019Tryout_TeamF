@@ -83,6 +83,8 @@ public class LineCreate : MonoBehaviour
                     if (distance > 2)
                     {
                         _bezier.transform.gameObject.SetActive(true);
+                        _fristObj.SetActive(true);
+                        _endObj.SetActive(true);
                         _bezier.SetPoints(_touchPos);
                     }
                 }
@@ -97,6 +99,9 @@ public class LineCreate : MonoBehaviour
                 if (distance > 2 && _bezier.GetLineType() == LineBezier.LINE_TYPE.NON)
                 {
                     // ベジェ曲線で曲げる
+                    _bezier.transform.gameObject.SetActive(true);
+                    _fristObj.SetActive(true);
+                    _endObj.SetActive(true);
                     _bezier.SetPoints(_touchPos);
                     _bezier.SetType(LineBezier.LINE_TYPE.START);
                     Distance(_film.gameObject);
