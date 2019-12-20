@@ -15,6 +15,10 @@ public class HitStop : SingletonMonoBehaviour<HitStop>
     //　時間を遅くしているかどうか
     public bool isSlowDown = false;
 
+    void Start()
+    {
+        SetNormalTime();
+    }
     void Update()
     {
         //　スローダウンフラグがtrueの時は時間計測

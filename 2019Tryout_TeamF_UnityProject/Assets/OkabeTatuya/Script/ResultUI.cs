@@ -21,7 +21,7 @@ public class ResultUI : UIBase
 
     void ChengeData()
     {
-        m_resultUI.text = "Scoer" + Manaeger.Instance.m_gameScoer.ToString();
+        m_resultUI.text = Manaeger.Instance.m_gameScoer.ToString();
         m_rankUI.sprite = Manaeger.Instance.SetRankImage();
     }
 }

@@ -15,11 +15,12 @@ public class CameraMove : MonoBehaviour
     int nowWave = -1;
     bool WaveMove = false;
     float Max_y, Min_y;
-    Rigidbody2D rd2;
+    Rigidbody2D rd2,playerRgi;
     void Start()
     {
         playerTar = Player.transform;
         rd2 = GetComponent<Rigidbody2D>();
+        playerRgi = Player.GetComponent<Rigidbody2D>();
     }
     float y = 0;
     Vector3 startPos;
@@ -38,6 +39,7 @@ public class CameraMove : MonoBehaviour
             //Waveの初期位置に着いた
             if (Vector3.Distance(new Vector3(0, WavePoint[nowWave][0], -10), transform.position) <= 0.01f)
             {
+                playerRgi.velocity = Vector3.zero;
                 transform.position = new Vector3(0, WavePoint[nowWave][0], -10);
                 playerTar.position = new Vector3(0, transform.position.y, 0);
                 WaveMove = false;
@@ -52,6 +54,12 @@ public class CameraMove : MonoBehaviour
             this.transform.position = new Vector3(transform.position.x, playerTar.position.y, -10);
             Clamp();
         }
+    }
+
+    public void Ball_Return()
+    {
+        playerTar.position = new Vector3(0, WavePoint[nowWave][0], -10);
+        WaveMove = true;
     }
 
 

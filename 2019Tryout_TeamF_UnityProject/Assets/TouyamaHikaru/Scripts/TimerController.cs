@@ -26,10 +26,12 @@ public class TimerController : MonoBehaviour
         totalTime -= Time.deltaTime;
         seconds = (int)totalTime;
         timerText.text = seconds.ToString();
-        Manaeger.Instance.m_nowTime = (int)totalTime;
+
 
         if (totalTime <= 0)
         {
+            Manaeger.Instance.m_nowTime = (int)totalTime;
+            Manaeger.Instance.GameEnd(false);
             Manaeger.Instance.ChangeUI(UIName.Rezult);
             Manaeger.Instance.m_isRezualt = true;
         }

@@ -29,6 +29,7 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     public bool m_nextWaveFlag;
     public bool m_addOnesFlag;
     public bool m_isRezualt;
+    public GameObject[] GameData;
 
     List<GameObject> m_uiObject;
     List<string> m_uiKey;
@@ -38,6 +39,8 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     public bool m_gameStart;
 
     int m_waveCount = 0;
+
+    public GameObject Clear, GameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +61,6 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
     //選択されたUIを表示
     public void ChangeUI(UIName name)
     {
-
         Debug.Log((int)name);
 
         for (int i = 0; i < m_visibleUI.Length; i++)
@@ -73,7 +75,6 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
             }
         }
     }
-
 
     public void AddWaveCount()
     {
@@ -95,11 +96,29 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
         //m_managerData.m_uiObject[2].SetActive(true);
     }
 
-    void GameStart()
+    public void GameStart()
     {
-        if (m_gameStart)
+        for (int i = 0; i < GameData.Length; i++)
         {
-
+            GameData[i].SetActive(true);
+        }
+    }
+    public void GameEnd(bool End)
+    {
+        for (int i = 0; i < GameData.Length; i++)
+        {
+            GameData[i].SetActive(false);
+        }
+        //クリア
+        if (End)
+        {
+            Clear.SetActive(true);
+            GameOver.SetActive(false);
+        }
+        else
+        {
+            GameOver.SetActive(true);
+            Clear.SetActive(false);
         }
     }
 
@@ -126,7 +145,7 @@ public class Manaeger : SingletonMonoBehaviour<Manaeger>
         }
     }
 
-    void GameReStart()
+    public void GameReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("GameManager",LoadSceneMode.Additive);

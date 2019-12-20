@@ -83,7 +83,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     }
 
 
-    public void FadeBGM()
+    public bool FadeBGM()
     {
         float volume = m_bgmSource.volume - Time.deltaTime * m_fadeSpeed;
         if (m_bgmSource.volume <= 0)
@@ -91,5 +91,14 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             m_bgmSource.Stop();
         }
         m_bgmSource.volume = volume;
+
+        if (m_bgmSource.volume <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
