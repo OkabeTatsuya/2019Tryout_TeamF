@@ -431,7 +431,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1016927231}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769749992}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c5482abe35fee74391ffee782407f30, type: 3}
@@ -2192,66 +2192,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133012, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _falseObj.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _debug
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _centerObj
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: _ball
       value: 
       objectReference: {fileID: 1364080416}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _pointObj
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _force
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _secondTime
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _speed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _sinSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _dent
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: _falseObj.Array.data[0]
-      value: 
-      objectReference: {fileID: 1769749992}
     - target: {fileID: 322079197327133013, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
         type: 3}
       propertyPath: _falseObj.Array.data[1]
@@ -2321,11 +2266,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 322079197327133010, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2097e0b08c7fdf445a9a09d4ed087c41, type: 3}
@@ -3542,14 +3482,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3810649951267609184, guid: 32cea6cc6fca3e845a21dac3052daf8d,
         type: 3}
-      propertyPath: _ball
-      value: 
-      objectReference: {fileID: 1364080418}
-    - target: {fileID: 3810649951267609184, guid: 32cea6cc6fca3e845a21dac3052daf8d,
-        type: 3}
       propertyPath: _bezier
       value: 
       objectReference: {fileID: 140432967}
+    - target: {fileID: 3810649951267609184, guid: 32cea6cc6fca3e845a21dac3052daf8d,
+        type: 3}
+      propertyPath: _ball
+      value: 
+      objectReference: {fileID: 1364080418}
     - target: {fileID: 3810649949974602618, guid: 32cea6cc6fca3e845a21dac3052daf8d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3945,12 +3885,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1769749992 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 322079197327133012, guid: 2097e0b08c7fdf445a9a09d4ed087c41,
-    type: 3}
-  m_PrefabInstance: {fileID: 1016927231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1773474733
 GameObject:
   m_ObjectHideFlags: 0
