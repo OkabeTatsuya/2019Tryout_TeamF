@@ -43,17 +43,7 @@ public class LineBezier : MonoBehaviour
     private Vector2 _boundDir;
     // ヒットした座標
     private Vector2 _hitPoint;
-    [SerializeField, Tooltip("デバック"), Header("Debug")]
-    private bool _active = false;
-    // デバック用のラインレンダラー表示
-    [SerializeField, Header("Debug")]
-    private PointLine _line;
-    [SerializeField]
-    private PointLine _ballLine;
-    [SerializeField]
-    private PointLine _boundLine;
 
-    private Renderer _renderer;
     private Vector2 _ballSize;
     private Vector2 _vertexPosition;
     private Vector3 _centerReversePos;
@@ -67,21 +57,27 @@ public class LineBezier : MonoBehaviour
     [SerializeField]
     private GameObject[] _falseObj;
     private Vector3 vec;
+
+	[SerializeField, Tooltip("デバック"), Header("Debug")]
+    private bool _active = false;
+    // デバック用のラインレンダラー表示
+    [SerializeField]
+    private PointLine _line;
+    [SerializeField]
+    private PointLine _ballLine;
+    [SerializeField]
+    private PointLine _boundLine;
     // Start is called before the first frame update
     void Start()
     {
+		_lineRenderer = GetComponent<LineRenderer>();
+
         _point = Vector3.zero;
         _sin = 0;
         _type = LINE_TYPE.NON;
         _firstPoint = Vector3.zero;
         _endPoint = Vector3.zero;
-        _lineRenderer = GetComponent<LineRenderer>();
-        _renderer = _ball.GetComponent<Renderer>();
 
-        if (_renderer != null)
-        {
-            _ballSize = _renderer.bounds.size;
-        }
         _centerPoint.y = -2;
         if (_lineRenderer != null)
         {
@@ -210,9 +206,7 @@ public class LineBezier : MonoBehaviour
     {
         _nowTime += Time.deltaTime;
         _sin = Mathf.Sin(Time.time * _sinSpeed);
-        Debug.Log(_sin);
         Vector3 point = _point * _sin * _dent;
-        Debug.Log(point + "補正座標");
         _centerPoint = point;
         if(_nowTime > _secondTime)
         {
@@ -229,15 +223,11 @@ public class LineBezier : MonoBehaviour
     public float CheckRay()
     {
         var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
-        //var _col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, -_dir, _dent, _layer);
         if (col)
         {
             return col.distance;
         }
-        //if(_col)
-        //{
-        //    return _col.distance;
-        //}
+
         return _dent;
     }
 
@@ -247,10 +237,8 @@ public class LineBezier : MonoBehaviour
 
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _ballRigidbody.velocity = Vector3.zero;
-        Vector3 moveing_distance = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * dent, Time.deltaTime * _speed);
-        Vector3 moveing_ball = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2) , Time.deltaTime * _speed);
-        _ball.transform.position = moveing_ball;
-        _centerPoint = moveing_distance;
+        _ball.transform.position = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed); ;
+        _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * dent, Time.deltaTime * _speed);
         // Debug.Log("値のチェック" + (_centerPoint.magnitude - (_hitPoint + _boundDir * _dent).magnitude));
         if ((_hitPoint + _boundDir * dent).magnitude - _centerPoint.magnitude <= 0.01f)
         {
@@ -316,20 +304,16 @@ public class LineBezier : MonoBehaviour
     private void OnDrawGizmos()
     {
         var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
-        //var _col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, -_dir, _dent);
 
         if (col)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawRay((_firstPoint + _endPoint) / 2, vec * col.distance);
-            //Gizmos.DrawRay((_firstPoint + _endPoint) / 2, -_dir * _col.distance);
         }
         else
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawRay((_firstPoint + _endPoint) / 2, vec.normalized * _dent);
-            //Gizmos.DrawRay((_firstPoint + _endPoint) / 2, -_dir * _dent);
-
         }
     }
 }

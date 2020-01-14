@@ -121,12 +121,6 @@ public class LineCreate : MonoBehaviour
         return 1 / (distance);
     }
 
-    // 線の当たり判定の有無
-    private void Onplus(Collision collision)
-    {
-        
-    }
-
     private void Distance(GameObject obj)
     {
         float distance = _mouse.GetDistance(_touchPos[0], _touchPos[1]);
