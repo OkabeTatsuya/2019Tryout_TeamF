@@ -7,11 +7,10 @@ public class Film : MonoBehaviour
     [SerializeField]
     private LineBezier _bezier = null;
     [SerializeField]
-    private BallScript _ball;
+    private BallScript _ball = null;
     [SerializeField]
     private Collider2D[] colliders = new Collider2D[3];
-    // フェイドクラス
-    private FadeSprite _fade;
+
     // 跳ね返せる強さ
     private float _boundPower;
     // 当たり判定

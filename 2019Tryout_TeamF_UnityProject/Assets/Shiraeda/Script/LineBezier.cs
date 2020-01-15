@@ -57,9 +57,10 @@ public class LineBezier : MonoBehaviour
     [SerializeField]
     private GameObject[] _falseObj;
     private Vector3 vec;
+    private float _alpha = 1.0f;
 
-	[SerializeField, Tooltip("デバック"), Header("Debug")]
-    private bool _active = false;
+	[SerializeField, Tooltip("デバックフラグ"), Header("Debug")]
+    private bool _debug = false;
     // デバック用のラインレンダラー表示
     [SerializeField]
     private PointLine _line;
@@ -71,7 +72,7 @@ public class LineBezier : MonoBehaviour
     void Start()
     {
 		_lineRenderer = GetComponent<LineRenderer>();
-
+        _alpha = 1.0f;
         _point = Vector3.zero;
         _sin = 0;
         _type = LINE_TYPE.NON;
@@ -126,7 +127,6 @@ public class LineBezier : MonoBehaviour
         for (int i = 0; i < _positionCount; i++)
         {
             float t = (float)i / (_positionCount - 1);
-            //Debug.Log(t);
             Vector3 pointBezier = BezierCurve(first, end, center, t);
             _lineRenderer.SetPosition(i, pointBezier);
         }
@@ -188,7 +188,7 @@ public class LineBezier : MonoBehaviour
         //_centerPoint = _hitPoint + _boundDir * 10;
         float rad = Mathf.Atan2(vector.y, vector.x);
 
-        if (_active)
+        if (_debug)
         {
             Debug.Log(_dir + "線の向き");
             Debug.Log(_boundDir + "反射角");
@@ -204,47 +204,53 @@ public class LineBezier : MonoBehaviour
 
     public void EndMove()
     {
-        _nowTime += Time.deltaTime;
         _sin = Mathf.Sin(Time.time * _sinSpeed);
+        _alpha -= 1 * Time.deltaTime * _secondTime;
+        _lineRenderer.startColor = new Color(1, 1, 1, _alpha);
+        _lineRenderer.endColor = new Color(1, 1, 1, _alpha);
         Vector3 point = _point * _sin * _dent;
         _centerPoint = point;
-        if(_nowTime > _secondTime)
+        if(_alpha < 0)
         {
-            _nowTime = 0;
             _sin = 0;
             SetType(LINE_TYPE.NON);
             foreach (var obj in _falseObj)
             {
                 obj.SetActive(false);
+                _alpha = 1.0f;
             }
         }
     }
 
     public float CheckRay()
     {
+        // ボールが入ってきたベクトル方向に壁がないか調べる
         var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
         if (col)
         {
             return col.distance;
         }
-
         return _dent;
     }
 
     public void Extend()
     {
         float dent = CheckRay();
-
+        // ボールの物理挙動を切る
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _ballRigidbody.velocity = Vector3.zero;
-        _ball.transform.position = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed); ;
+        // ボールをへこみの中心まで移動させる
+        _ball.transform.position = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed);
+        // 膜を伸ばす
         _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * dent, Time.deltaTime * _speed);
-        // Debug.Log("値のチェック" + (_centerPoint.magnitude - (_hitPoint + _boundDir * _dent).magnitude));
-        if ((_hitPoint + _boundDir * dent).magnitude - _centerPoint.magnitude <= 0.01f)
+        // 膜の中心から伸ばせる長さと現在の伸びを比べる
+        if ((_hitPoint + _boundDir * dent).magnitude - _centerPoint.magnitude <= 0.1f)
         {
+            // 伸びた位置の逆
             _centerReversePos = -_centerPoint;
             _point = (_centerPoint.normalized);
 
+            // 物理挙動を有効化する
             _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;
             _ballRigidbody.velocity = _centerReversePos * _force;
             SetType(LINE_TYPE.END);
