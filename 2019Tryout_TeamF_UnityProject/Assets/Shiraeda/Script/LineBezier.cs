@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineBezier : MonoBehaviour
+public class LineBezier : Bezier
 {
     public enum LINE_TYPE
     {
@@ -18,10 +18,6 @@ public class LineBezier : MonoBehaviour
     private Vector3 _firstPoint = Vector3.zero;
     // 終点座標
     private Vector3 _endPoint = Vector3.zero;
-    [SerializeField, Tooltip("分割するポイント")]
-    private int _positionCount = 2;
-    [SerializeField, Tooltip("まくの伸びる位置")]
-    private Vector3 _centerPoint;
     [SerializeField, Tooltip("反発速度")]
     private float _speed = 1.0f;
     [SerializeField, Tooltip("")]
@@ -164,16 +160,6 @@ public class LineBezier : MonoBehaviour
         }
     }
 
-    // ベジェ曲線の計算式
-    public Vector3 BezierCurve(Vector3 startPoint, Vector3 endPoint, Vector3 center, float t)
-    {
-        // ポイント1、ポイント2、ポイント3からなる2次元のベジェ曲線
-        Vector3 _point1 = Vector3.Lerp(startPoint, center, t);
-        Vector3 _point2 = Vector3.Lerp(center, endPoint, t);
-        Vector3 _point3 = Vector3.Lerp(_point1, _point2, t);
-        return _point3;
-    }
-
     public void HitCheck(Vector2 hitPoint, Vector2 vector, float force)
     {
         vec = vector;
@@ -286,6 +272,7 @@ public class LineBezier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 線を曲げる
         SetCurve(_firstPoint, _endPoint);
         // ボールの物理挙動を停止させる
         switch (_type)
@@ -309,7 +296,7 @@ public class LineBezier : MonoBehaviour
                 break;
         }
         // 線を曲げる
-        SetCurve(_firstPoint, _endPoint);
+        //SetCurve(_firstPoint, _endPoint);
     }
 
     private void OnDrawGizmos()
