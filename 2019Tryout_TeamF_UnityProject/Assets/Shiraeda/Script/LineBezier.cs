@@ -177,10 +177,13 @@ public class LineBezier : MonoBehaviour
     public void HitCheck(Vector2 hitPoint, Vector2 vector, float force)
     {
         vec = vector;
+
+
         //現在のlineの中心座標を取得
         Vector2 center = ((_firstPoint + _endPoint) / 2);
-
+        // 衝突地点
         _hitPoint = hitPoint - center;
+        // 反射用のベクトル
         _boundDir = ((_dir + vector)).normalized;
 
         Debug.Log(_dir.normalized);
@@ -224,6 +227,7 @@ public class LineBezier : MonoBehaviour
 
     public float CheckRay()
     {
+
         // ボールが入ってきたベクトル方向に壁がないか調べる
         var col = Physics2D.Raycast((_firstPoint + _endPoint) / 2, vec.normalized, _dent, _layer);
         if (col)
@@ -231,6 +235,7 @@ public class LineBezier : MonoBehaviour
             return col.distance;
         }
         return _dent;
+
     }
 
     public void Extend()
