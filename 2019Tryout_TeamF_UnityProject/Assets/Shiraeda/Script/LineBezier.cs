@@ -14,10 +14,6 @@ public class LineBezier : Bezier
     }
 
     private LINE_TYPE _type;
-    // 始点座標
-    private Vector3 _firstPoint = Vector3.zero;
-    // 終点座標
-    private Vector3 _endPoint = Vector3.zero;
     [SerializeField, Tooltip("反発速度")]
     private float _speed = 1.0f;
     [SerializeField, Tooltip("")]
@@ -30,9 +26,6 @@ public class LineBezier : Bezier
     [SerializeField, Tooltip("へこむ深さ")]
     private float _dent = 10;
 
-    // LineRenderer取得用変数
-    private LineRenderer _lineRenderer;
-
     // ラインの向き
     private Vector2 _dir;
     private Rigidbody2D _ballRigidbody;
@@ -41,13 +34,12 @@ public class LineBezier : Bezier
     private Vector2 _hitPoint;
 
     private Vector2 _ballSize;
-    private Vector2 _vertexPosition;
     private Vector3 _centerReversePos;
     private float _nowTime = 0;
     [SerializeField]
     private float _secondTime = 1.0f;
     private float _sin = 0f;
-    private Vector3 _point;
+    private Vector3 _pos;
     [SerializeField]
     private LayerMask _layer = 0;
     [SerializeField]
@@ -55,7 +47,9 @@ public class LineBezier : Bezier
     private Vector3 vec;
     private float _alpha = 1.0f;
 
-	[SerializeField, Tooltip("デバックフラグ"), Header("Debug")]
+
+    [Header("Debug")]
+	[SerializeField, Tooltip("デバックフラグ")]
     private bool _debug = false;
     // デバック用のラインレンダラー表示
     [SerializeField]
@@ -69,7 +63,7 @@ public class LineBezier : Bezier
     {
 		_lineRenderer = GetComponent<LineRenderer>();
         _alpha = 1.0f;
-        _point = Vector3.zero;
+        _pos = Vector3.zero;
         _sin = 0;
         _type = LINE_TYPE.NON;
         _firstPoint = Vector3.zero;
@@ -98,36 +92,6 @@ public class LineBezier : Bezier
         _firstPoint = Vector3.zero;
         _endPoint = Vector3.zero;
         _centerPoint.y = -2;
-    }
-
-    // ベジェ曲線で対象のオブジェクトを曲げる
-    public Vector3 SetCurve(Vector3 first, Vector3 end)
-    {
-        _firstPoint = first;
-        _endPoint = end;
-        if (_positionCount < 2)
-        {
-            return Vector3.zero;
-        }
-        if (_lineRenderer != null)
-        {
-            _lineRenderer.positionCount = _positionCount;
-        }
-        // 現在の始点と終点の間から動いた距離
-        Vector3 center = ((first + end) / 2) + _centerPoint;
-        // 始点の座標をセット
-        _lineRenderer.SetPosition(0, first);
-        // 終点の座標をセット
-        _lineRenderer.SetPosition(_positionCount - 1, end);
-        // 中間地点の座標をセット
-        for (int i = 0; i < _positionCount; i++)
-        {
-            float t = (float)i / (_positionCount - 1);
-            Vector3 pointBezier = BezierCurve(first, end, center, t);
-            _lineRenderer.SetPosition(i, pointBezier);
-        }
-        _vertexPosition = _lineRenderer.GetPosition(_positionCount / 2);
-        return Vector3.zero;
     }
 
     public void SetPoints(Vector3[] points)
@@ -197,7 +161,7 @@ public class LineBezier : Bezier
         _alpha -= 1 * Time.deltaTime * _secondTime;
         _lineRenderer.startColor = new Color(1, 1, 1, _alpha);
         _lineRenderer.endColor = new Color(1, 1, 1, _alpha);
-        Vector3 point = _point * _sin * _dent;
+        Vector3 point = _pos * _sin * _dent;
         _centerPoint = point;
         if(_alpha < 0)
         {
@@ -231,7 +195,7 @@ public class LineBezier : Bezier
         _ballRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _ballRigidbody.velocity = Vector3.zero;
         // ボールをへこみの中心まで移動させる
-        _ball.transform.position = Vector3.Lerp(_ball.transform.position, _vertexPosition - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed);
+        _ball.transform.position = Vector3.Lerp(_ball.transform.position, _vertexPoint - (_boundDir * _ballSize.x / 2), Time.deltaTime * _speed);
         // 膜を伸ばす
         _centerPoint = Vector3.Lerp(_centerPoint, _hitPoint + _boundDir * dent, Time.deltaTime * _speed);
         // 膜の中心から伸ばせる長さと現在の伸びを比べる
@@ -239,7 +203,7 @@ public class LineBezier : Bezier
         {
             // 伸びた位置の逆
             _centerReversePos = -_centerPoint;
-            _point = (_centerPoint.normalized);
+            _pos = (_centerPoint.normalized);
 
             // 物理挙動を有効化する
             _ballRigidbody.bodyType = RigidbodyType2D.Dynamic;

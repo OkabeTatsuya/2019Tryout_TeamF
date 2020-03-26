@@ -43,10 +43,14 @@ public class LineCreate : MonoBehaviour
             Debug.Log("コンポーネントが存在しない");
             return;
         }
+#if UNITY_ANDROID
+#else
+#endif
         // Android移植用
         // 1か所以上タッチされているなら(Android版)
         if (Input.touchCount > 0)
         {
+            Touch touch = Input.GetTouch(0);
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
             }
